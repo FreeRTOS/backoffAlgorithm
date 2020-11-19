@@ -1,5 +1,5 @@
 # Include file path configuration for retry utils library.
-include(../retryUtilsFilePaths.cmake)
+include(${MODULE_ROOT_DIR}/backoffAlgorithmFilePaths.cmake)
 
 project ("retry utils unit test")
 cmake_minimum_required (VERSION 3.2.0)
