@@ -39,6 +39,7 @@ list(APPEND real_include_directories
 # list the directories your test needs to include
 list(APPEND test_include_directories
                 ${RETRY_UTILS_INCLUDE_PUBLIC_DIRS}
+                ${CMAKE_CURRENT_LIST_DIR}
         )
 
 # =============================  (end edit)  ===================================

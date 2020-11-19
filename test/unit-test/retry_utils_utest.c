@@ -27,6 +27,9 @@
 /* Unity include. */
 #include "unity.h"
 
+/* Include utility for catching assert failures. */
+#include "catch_assert.h"
+
 /* Retry utils library include */
 #include "retry_utils.h"
 
@@ -99,6 +102,19 @@ static void verifyContextData( RetryUtilsContext_t * pContext,
     TEST_ASSERT_EQUAL( expectedMaxAttempts, pContext->maxRetryAttempts );
     TEST_ASSERT_EQUAL( expectedMaxBackOff, pContext->maxBackOffDelay );
     TEST_ASSERT_EQUAL_PTR( pExpectedRng, pContext->pRng );
+}
+
+/**
+ * @brief Test that #RetryUtils_InitializeParams encounters an assert
+ * failure when a NULL context parameter is passed.
+ */
+void test_RetryUtils_InitializeParams_Invalid_Context( void )
+{
+    catch_assert( RetryUtils_InitializeParams( NULL /* Invalid context */,
+                                               TEST_BACKOFF_BASE_VALUE,
+                                               TEST_BACKOFF_MAX_VALUE,
+                                               TEST_MAX_ATTEMPTS,
+                                               mockRng ) );
 }
 
 /**
@@ -369,4 +385,17 @@ void test_RetryUtils_GetNextBackOff_Returns_Rand_Val( void )
                        TEST_BACKOFF_MAX_VALUE,
                        TEST_MAX_ATTEMPTS,
                        mockRng );
+}
+
+/**
+ * @brief Tests that the #RetryUtils_GetNextBackOff API encounters assert failures
+ *  when called with invalid parameters.
+ */
+void test_RetryUtils_GetNextBackOff_Invalid_Params()
+{
+    /* Invalid context. */
+    catch_assert( RetryUtils_GetNextBackOff( NULL, &nextBackOff ) );
+
+    /* Invalid output parameter for next back-off. */
+    catch_assert( RetryUtils_GetNextBackOff( &retryParams, NULL ) );
 }
