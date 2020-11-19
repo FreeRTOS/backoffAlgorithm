@@ -41,7 +41,7 @@ add_library( coverity_analysis
              ${RETRY_UTILS_SOURCES} )
 
 # Backoff Algorithm library public include path.
-target_include_directories( coverity_analysis 
+target_include_directories( coverity_analysis
                             PUBLIC
                              ${RETRY_UTILS_INCLUDE_PUBLIC_DIRS} )
 
