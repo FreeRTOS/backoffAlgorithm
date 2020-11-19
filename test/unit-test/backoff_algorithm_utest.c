@@ -31,7 +31,7 @@
 #include "catch_assert.h"
 
 /* Retry utils library include */
-#include "retry_utils.h"
+#include "backoff_algorithm.h"
 
 /* Return value of mockRng. */
 static int32_t randomValToReturn;
@@ -149,7 +149,7 @@ void test_RetryUtils_GetNextBackOff_Rng_Failure( void )
     RetryUtils_InitializeParams( &retryParams,
                                  TEST_BACKOFF_BASE_VALUE,
                                  TEST_BACKOFF_MAX_VALUE,
-                                 RETRY_UTILS_RETRY_FOREVER,
+                                 BACKOFF_ALGORITHM_RETRY_FOREVER,
                                  mockRng );
 
     /* Test the #RetryUtils_GetNextBackOff API with the 2 negative values
@@ -170,7 +170,7 @@ void test_RetryUtils_GetNextBackOff_Rng_Failure( void )
                            0,
                            TEST_BACKOFF_BASE_VALUE,
                            TEST_BACKOFF_MAX_VALUE,
-                           RETRY_UTILS_RETRY_FOREVER,
+                           BACKOFF_ALGORITHM_RETRY_FOREVER,
                            mockRng );
     }
 }

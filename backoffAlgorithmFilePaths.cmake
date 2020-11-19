@@ -6,9 +6,9 @@
 # are not added to the variables.
 
 # Retry Utils library source files.
-set( RETRY_UTILS_SOURCES
-     "${CMAKE_CURRENT_LIST_DIR}/source/retry_utils.c" )
+set( BACKOFF_ALGORITHM_SOURCES
+     "${CMAKE_CURRENT_LIST_DIR}/source/backoff_algorithm.c" )
 
 # Retry Utils library Public Include directories.
-set( RETRY_UTILS_INCLUDE_PUBLIC_DIRS
+set( BACKOFF_ALGORITHM_INCLUDE_PUBLIC_DIRS
      "${CMAKE_CURRENT_LIST_DIR}/source/include" )

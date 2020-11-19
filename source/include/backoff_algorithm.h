@@ -21,7 +21,7 @@
  */
 
 /**
- * @file retry_utils.h
+ * @file backoff_algorithm.h
  * @brief Declaration of retry utility functions and constants for exponential backoff with
  * jitter strategy of retry attempts.
  * This library represents the "Full Jitter" backoff strategy explained in the
@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef RETRY_UTILS_H_
-#define RETRY_UTILS_H_
+#ifndef BACKOFF_ALGORITHM_H_
+#define BACKOFF_ALGORITHM_H_
 
 /* Standard include. */
 #include <stdint.h>
@@ -66,7 +66,7 @@
 /**
  * @brief Constant to represent unlimited number of retry attempts.
  */
-#define RETRY_UTILS_RETRY_FOREVER    0
+#define BACKOFF_ALGORITHM_RETRY_FOREVER    0
 
 /**
  * @brief Interface for a random number generator.
@@ -138,7 +138,7 @@ typedef struct RetryUtilsContext
  * @param[in] backOffBase The base value (in milliseconds) of backoff delay to
  * use in the exponential backoff and jitter model.
  * @param[in] maxAttempts The maximum number of retry attempts. Set the value to
- * #RETRY_UTILS_RETRY_FOREVER to retry for ever.
+ * #BACKOFF_ALGORITHM_RETRY_FOREVER to retry for ever.
  * @param[in] pRng The platform-specific function to use for random number generation.
  * The random number generator should be seeded before calling this function.
  */
@@ -171,4 +171,4 @@ RetryUtilsStatus_t RetryUtils_GetNextBackOff( RetryUtilsContext_t * pRetryContex
                                               uint16_t * pNextBackOff );
 /* @[define_retryutils_getnextbackoff] */
 
-#endif /* ifndef RETRY_UTILS_H_ */
+#endif /* ifndef BACKOFF_ALGORITHM_H_ */

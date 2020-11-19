@@ -5,7 +5,7 @@ project ("retry utils unit test")
 cmake_minimum_required (VERSION 3.2.0)
 
 # ====================  Define your project name (edit) ========================
-set(project_name "retry_utils")
+set(project_name "backoff_algorithm")
 
 # =====================  Create your mock here  (edit)  ========================
 
@@ -27,18 +27,18 @@ list(APPEND mock_define_list
 
 # list the files you would like to test here
 list(APPEND real_source_files
-                ${RETRY_UTILS_SOURCES}
+                ${BACKOFF_ALGORITHM_SOURCES}
         )
 # list the directories the module under test includes
 list(APPEND real_include_directories
-                ${RETRY_UTILS_INCLUDE_PUBLIC_DIRS}
+                ${BACKOFF_ALGORITHM_INCLUDE_PUBLIC_DIRS}
         )
 
 # =====================  Create UnitTest Code here (edit)  =====================
 
 # list the directories your test needs to include
 list(APPEND test_include_directories
-                ${RETRY_UTILS_INCLUDE_PUBLIC_DIRS}
+                ${BACKOFF_ALGORITHM_INCLUDE_PUBLIC_DIRS}
                 ${CMAKE_CURRENT_LIST_DIR}
         )
 

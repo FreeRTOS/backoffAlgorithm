@@ -21,7 +21,7 @@
  */
 
 /**
- * @file retry_utils.c
+ * @file backoff_algorithm.c
  * @brief Implementation of the retry utils API for a "Full Jitter" exponential backoff
  * with jitter strategy.
  */
@@ -31,7 +31,7 @@
 #include <assert.h>
 
 /* Include API header. */
-#include "retry_utils.h"
+#include "backoff_algorithm.h"
 
 /*-----------------------------------------------------------*/
 
@@ -44,9 +44,9 @@ RetryUtilsStatus_t RetryUtils_GetNextBackOff( RetryUtilsContext_t * pRetryContex
     assert( pRetryContext != NULL );
     assert( pNextBackOff != NULL );
 
-    /* If RETRY_UTILS_RETRY_FOREVER is set to 0, try forever. */
+    /* If BACKOFF_ALGORITHM_RETRY_FOREVER is set to 0, try forever. */
     if( ( pRetryContext->attemptsDone < pRetryContext->maxRetryAttempts ) ||
-        ( pRetryContext->maxRetryAttempts == RETRY_UTILS_RETRY_FOREVER ) )
+        ( pRetryContext->maxRetryAttempts == BACKOFF_ALGORITHM_RETRY_FOREVER ) )
     {
         /* Generate a random number. */
         randomVal = pRetryContext->pRng();

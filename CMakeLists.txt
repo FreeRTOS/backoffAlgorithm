@@ -2,12 +2,12 @@
 include(retryUtilsFilePaths.cmake)
 
 # Library target for retry utils.
-add_library( retry_utils
-               ${RETRY_UTILS_SOURCES} )
+add_library( backoff_algorithm
+               ${BACKOFF_ALGORITHM_SOURCES} )
 
-target_include_directories( retry_utils
+target_include_directories( backoff_algorithm
                               PUBLIC
-                                ${RETRY_UTILS_INCLUDE_PUBLIC_DIRS} )
+                                ${BACKOFF_ALGORITHM_INCLUDE_PUBLIC_DIRS} )
 
 # Include unit tests.
 if(BUILD_TESTS)

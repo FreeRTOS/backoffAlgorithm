@@ -10,7 +10,7 @@ More information about the algorithm can be seen in the [Exponential Backoff and
 The example below shows how to use the backoffAlgorithm library to retry a DNS resolution query for `amazon.com`.
 
 ```c
-#include "retry_utils.h"
+#include "backoff_algorithm.h"
 #include <stdlib.h>
 #include <string.h>
 #include <netdb.h>
@@ -97,13 +97,13 @@ A compiler that supports **C89 or later** such as *gcc* is required to build the
 
 For instance, if the example above is copied to a file named `example.c`, *gcc* can be used like so:
 ```bash
-gcc -I source/include example.c source/retry_utils.c -o example
+gcc -I source/include example.c source/backoff_algorithm.c -o example
 ./example
 ```
 
 *gcc* can also produce an output file to be linked:
 ```bash
-gcc -I source/include -c source/retry_utils.c
+gcc -I source/include -c source/backoff_algorithm.c
 ```
 
 ## Building unit tests

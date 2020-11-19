@@ -38,12 +38,12 @@ include( ${MODULE_ROOT_DIR}/backoffAlgorithmFilePaths.cmake )
 
 # Target for Coverity analysis that builds the library.
 add_library( coverity_analysis
-             ${RETRY_UTILS_SOURCES} )
+             ${BACKOFF_ALGORITHM_SOURCES} )
 
 # Backoff Algorithm library public include path.
 target_include_directories( coverity_analysis
                             PUBLIC
-                             ${RETRY_UTILS_INCLUDE_PUBLIC_DIRS} )
+                             ${BACKOFF_ALGORITHM_INCLUDE_PUBLIC_DIRS} )
 
 #  ==================================== Unit Test Configuration ====================================
 
@@ -82,6 +82,6 @@ add_subdirectory( unit-test )
 add_custom_target( coverage
     COMMAND ${CMAKE_COMMAND} -DUNITY_DIR=${UNITY_DIR}
     -P ${MODULE_ROOT_DIR}/tools/unity/coverage.cmake
-    DEPENDS unity retry_utils_utest
+    DEPENDS unity backoff_algorithm_utest
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
