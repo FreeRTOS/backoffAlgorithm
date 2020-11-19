@@ -31,9 +31,12 @@ The example below shows how to use the backoffAlgorithm library to retry a DNS r
  * This function is used in the exponential backoff with jitter algorithm
  * to calculate the backoff value for the next retry attempt.
  *
- * It is recommended to use a True Random Number Generator.
- * For the simplicity of the code example, this is a pseudo random number
- * generator.
+ * It is recommended to either use a True Random Number Generator (TRNG) for
+ * calculation of unique back-off values in devices so that collision between
+ * devices attempting retries at the same intervals can be avoided.
+ * 
+ * For the simplicity of the code example, this function is a pseudo 
+ * random number generator.
  *
  * @return The generated random number. This example function ALWAYS succeeds
  * in generating a random number.
