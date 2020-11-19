@@ -35,13 +35,17 @@ set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 
 # Include filepaths for source and include.
 include( ${MODULE_ROOT_DIR}/backoffAlgorithmFilePaths.cmake )
+
 # Target for Coverity analysis that builds the library.
 add_library( coverity_analysis
              ${RETRY_UTILS_SOURCES} )
-# JSON public include path.
-target_include_directories( coverity_analysis PUBLIC ${RETRY_UTILS_INCLUDE_PUBLIC_DIRS} )
 
-#  ====================================  Test Configuration ========================================
+# Backoff Algorithm library public include path.
+target_include_directories( coverity_analysis 
+                            PUBLIC
+                             ${RETRY_UTILS_INCLUDE_PUBLIC_DIRS} )
+
+#  ==================================== Unit Test Configuration ====================================
 
 # Include Unity build configuration.
 include( unit-test/unity_build.cmake )
@@ -78,6 +82,6 @@ add_subdirectory( unit-test )
 add_custom_target( coverage
     COMMAND ${CMAKE_COMMAND} -DUNITY_DIR=${UNITY_DIR}
     -P ${MODULE_ROOT_DIR}/tools/unity/coverage.cmake
-    DEPENDS unity core_json_utest
+    DEPENDS unity retry_utils_utest
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
