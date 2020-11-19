@@ -68,11 +68,11 @@ jobs:
           with:
             ref: main
             repository: aws/aws-iot-device-sdk-embedded-C
-        - run: rm -rf libraries/standard/coreJSON
+        - run: rm -rf libraries/standard/retry-utils
         - name: Clone This Repo
           uses: actions/checkout@v2
           with:
-            path: libraries/standard/coreJSON
+            path: libraries/standard/retry-utils
         - name: Install spell
           run: |
             sudo apt-get install spell
@@ -80,7 +80,7 @@ jobs:
         - name: Check spelling
           run: |
             PATH=$PATH:$PWD/tools/spell
-            for lexfile in `find libraries/standard/coreJSON -name lexicon.txt`
+            for lexfile in `find libraries/standard/retry-utils -name lexicon.txt`
             do dir=${lexfile%/lexicon.txt}
               echo $dir
               find-unknown-comment-words --directory $dir
