@@ -25,7 +25,7 @@ The example below shows how to use the backoffAlgorithm library to retry a DNS r
 #define RETRY_BACKOFF_BASE_MS         ( 500U )
 
 /**
- * The random number generator to provide the backoffAlgorithm
+ * A random number generator to provide to the backoffAlgorithm
  * library.
  *
  * This function is used in the exponential backoff with jitter algorithm
@@ -67,7 +67,7 @@ int main()
     hints.ai_socktype = ( int32_t ) SOCK_STREAM;
     hints.ai_protocol = IPPROTO_TCP;
 
-    /* Initialize reconnect attempts and interval */
+    /* Initialize reconnect attempts and interval. */
     RetryUtils_InitializeParams( &retryParams,
                                  RETRY_BACKOFF_BASE_MS,
                                  RETRY_MAX_BACKOFF_DELAY_MS,
