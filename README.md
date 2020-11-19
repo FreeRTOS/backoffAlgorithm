@@ -1,17 +1,7 @@
-## My Project
+## backOffAlgorthm Library
 
-TODO: Fill this README out!
+This repository contains the backoffAlgorithm library, a utility library to calculate interval period for network operation retries (like failed network connection with server) using exponential back-off with jitter algorithm. The backoffAlgorithm library is distributed under the [MIT Open Source License](LICENSE).
 
-Be sure to:
-
-* Change the title in this README
-* Edit your repository description on GitHub
-
-## Security
-
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
-
-## License
-
-This library is licensed under the MIT-0 License. See the LICENSE file.
+This library supports the "Full Jitter" algorithm for exponential back-off with jitter.
+More information about the algorithm can be seen in the [Exponential Backoff and Jitter](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/) AWS blog. 
 
