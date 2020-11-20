@@ -83,7 +83,7 @@ int main()
         if( dnsStatus != 0 )
         {
             /* Get back-off value (in milliseconds) for the next retry. */
-            retryStatus = BackoffAlgorithm_GetNextBackOff( &retryParams, &nextRetryBackOff );
+            retryStatus = BackoffAlgorithm_GetNextBackoff( &retryParams, &nextRetryBackOff );
         }
     } while( ( dnsStatus != 0 ) && ( retryStatus != BackoffAlgorithmRetriesExhausted ) );
 

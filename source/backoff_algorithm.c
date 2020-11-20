@@ -35,7 +35,7 @@
 
 /*-----------------------------------------------------------*/
 
-BackoffAlgorithmStatus_t BackoffAlgorithm_GetNextBackOff( BackoffAlgorithmContext_t * pRetryContext,
+BackoffAlgorithmStatus_t BackoffAlgorithm_GetNextBackoff( BackoffAlgorithmContext_t * pRetryContext,
                                                           uint16_t * pNextBackOff )
 {
     BackoffAlgorithmStatus_t status = BackoffAlgorithmSuccess;
