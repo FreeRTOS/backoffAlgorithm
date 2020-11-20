@@ -22,8 +22,8 @@
 
 /**
  * @file backoff_algorithm.h
- * @brief Declaration of retry utility functions and constants for exponential backoff with
- * jitter strategy of retry attempts.
+ * @brief API for calculating backoff period for retry attempts using
+ * exponential backoff with jitter algorithm.
  * This library represents the "Full Jitter" backoff strategy explained in the
  * following document.
  * https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/
@@ -37,33 +37,7 @@
 #include <stdint.h>
 
 /**
- * @page backoffalgorithm_page Backoff Algorithm
- * @brief Library for calculating backoff of retry attempts using exponential back off and
- * jitter algorithm.
- *
- * @section backoffalgorithm_overview Overview
- * The backoff algorithm library is a set of APIs that aid in retrying with exponential
- * backoff and jitter. Exponential backoff with jitter is strongly recommended
- * for retrying failed actions over the network with servers. Please see
- * https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/ for
- * more information about the benefits with AWS.
- *
- * Exponential backoff with jitter is typically used when retrying a failed
- * connection to the server. In an environment with poor connectivity, a client
- * can get disconnected at any time. A backoff strategy helps the client to
- * conserve battery by not repeatedly attempting reconnections when they are
- * unlikely to succeed.
- *
- * Before retrying the failed communication to the server, there is a delay period.
- * In this delay period, the task that is retrying must sleep for some random amount
- * of milliseconds between 0 and the lesser of the backoff window (related to the retry attempt)
- * and a predefined maximum delay value. The backoff window is doubled with each retry
- * attempt until the maximum delay value is reached.<br>
- *
- * > sleep_ms = random_between( 0, min( 2<sup>attempts_count</sup> * base_ms, maximum_ms ) )
- */
-
-/**
+ * @ingroup backoff_algorithm_constants
  * @brief Constant to represent unlimited number of retry attempts.
  */
 #define BACKOFF_ALGORITHM_RETRY_FOREVER    0
@@ -83,6 +57,7 @@
 typedef int32_t ( * BackoffAlgorithm_RNG_t )();
 
 /**
+ * @ingroup backoff_algorithm_enum_types
  * @brief Status for @ref BackoffAlgorithm_GetNextBackoff.
  */
 typedef enum BackoffAlgorithmStatus
@@ -93,6 +68,7 @@ typedef enum BackoffAlgorithmStatus
 } BackoffAlgorithmStatus_t;
 
 /**
+ * @ingroup backoff_algorithm_struct_types
  * @brief Represents parameters required for calculating the back-off delay for the
  * next retry attempt.
  */
@@ -131,7 +107,7 @@ typedef struct BackoffAlgorithmContext
  * are required for calculating the next retry backoff delay.
  * This function must be called by the application before the first new retry attempt.
  *
- * @param[out] pRetryParams The context to initialize with parameters required
+ * @param[out] pContext The context to initialize with parameters required
  * for the next backoff delay calculation function.
  * @param[in] maxBackOff The maximum backoff delay (in milliseconds) between
  * consecutive retry attempts.
@@ -166,9 +142,9 @@ void BackoffAlgorithm_InitializeParams( BackoffAlgorithmContext_t * pContext,
  * @return #BackoffAlgorithmSuccess after a successful sleep, #BackoffAlgorithmRngFailure for a failure
  * in random number generation, #BackoffAlgorithmRetriesExhausted when all attempts are exhausted.
  */
-/* @[define_BackoffAlgorithm_GetNextBackoff] */
+/* @[define_backoffalgorithm_getnextbackoff] */
 BackoffAlgorithmStatus_t BackoffAlgorithm_GetNextBackoff( BackoffAlgorithmContext_t * pRetryContext,
                                                           uint16_t * pNextBackOff );
-/* @[define_BackoffAlgorithm_GetNextBackoff] */
+/* @[define_backoffalgorithm_getnextbackoff] */
 
 #endif /* ifndef BACKOFF_ALGORITHM_H_ */
