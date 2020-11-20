@@ -49,8 +49,8 @@ static int32_t pseudoRng()
 int main()
 {
     /* Variables used in this example. */
-    RetryUtilsStatus_t retryStatus = RetryUtilsSuccess;
-    RetryUtilsContext_t retryParams;
+    BackoffAlgorithmStatus_t retryStatus = BackoffAlgorithmSuccess;
+    BackoffAlgorithmContext_t retryParams;
     char serverAddress[] = "amazon.com";
     uint16_t nextRetryBackOff = 0;
 
@@ -68,7 +68,7 @@ int main()
     hints.ai_protocol = IPPROTO_TCP;
 
     /* Initialize reconnect attempts and interval. */
-    RetryUtils_InitializeParams( &retryParams,
+    BackoffAlgorithm_InitializeParams( &retryParams,
                                  RETRY_BACKOFF_BASE_MS,
                                  RETRY_MAX_BACKOFF_DELAY_MS,
                                  RETRY_MAX_ATTEMPTS,
@@ -83,9 +83,9 @@ int main()
         if( dnsStatus != 0 )
         {
             /* Get back-off value (in milliseconds) for the next retry. */
-            retryStatus = RetryUtils_GetNextBackOff( &retryParams, &nextRetryBackOff );
+            retryStatus = BackoffAlgorithm_GetNextBackOff( &retryParams, &nextRetryBackOff );
         }
-    } while( ( dnsStatus != 0 ) && ( retryStatus != RetryUtilsRetriesExhausted ) );
+    } while( ( dnsStatus != 0 ) && ( retryStatus != BackoffAlgorithmRetriesExhausted ) );
 
     return dnsStatus;
 }

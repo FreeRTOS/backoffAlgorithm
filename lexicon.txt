@@ -25,9 +25,9 @@ pnextbackoff
 pretrycontext
 pretryparams
 prng
-retryutilsretriesexhausted
-retryutilsrngfailure
-retryutilssuccess
+backoffalgorithmretriesexhausted
+backoffalgorithmrngfailure
+backoffalgorithmsuccess
 rng
 sdk
 shouldn

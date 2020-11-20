@@ -5,10 +5,10 @@
 # Files specific to the repository such as test runner, platform tests
 # are not added to the variables.
 
-# Retry Utils library source files.
+# Backoff Algorithm library source files.
 set( BACKOFF_ALGORITHM_SOURCES
      "${CMAKE_CURRENT_LIST_DIR}/source/backoff_algorithm.c" )
 
-# Retry Utils library Public Include directories.
+# Backoff Algorithm library Public Include directories.
 set( BACKOFF_ALGORITHM_INCLUDE_PUBLIC_DIRS
      "${CMAKE_CURRENT_LIST_DIR}/source/include" )

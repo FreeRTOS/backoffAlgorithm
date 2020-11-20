@@ -1,7 +1,7 @@
-# Include file path configuration for retry utils library.
-include(retryUtilsFilePaths.cmake)
+# Include file path configuration for backoff algorithm library.
+include(BackoffAlgorithmFilePaths.cmake)
 
-# Library target for retry utils.
+# Library target for backoff algorithm.
 add_library( backoff_algorithm
                ${BACKOFF_ALGORITHM_SOURCES} )
 
