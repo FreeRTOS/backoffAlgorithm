@@ -13,9 +13,9 @@ Exponential backoff with jitter is typically used when retrying a failed
 connection or network operation with the server. An exponential backoff with jitter helps to
 mitigate the server request failure caused from network congestion or high request load on
 the server by spreading out retry requests across multiple devices.
-Besides, in an environment with poor connectivity, a client can get disconnected at any time. 
+Besides, in an environment with poor connectivity, a client can get disconnected at any time.
 A backoff strategy helps the client to conserve battery by not repeatedly attempting reconnections when they are
-unlikely to succeed. 
+unlikely to succeed.
 
 Before retrying the failed communication to the server, there is a delay period.
 In this delay period, the task that is retrying must sleep for some random amount
