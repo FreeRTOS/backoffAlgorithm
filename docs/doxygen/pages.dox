@@ -58,11 +58,11 @@ local variables on the stack.
 
 <h3>Random Number Generator</h3>
 <p>
-The library requires a platform-specific random number generator for the "jitter" 
-part of the algorithm when generating the next backoff value. To avoid calculation 
+The library requires a platform-specific random number generator for the "jitter"
+part of the algorithm when generating the next backoff value. To avoid calculation
 of the same random numbers across your fleet of devices attempting retry of network
 operations, it is RECOMMENDED to provide a random number generator that is seeded with
-an entropy source unique to the device. 
+an entropy source unique to the device.
 </p>
 
 <h3>Compliance & Coverage</h3>
