@@ -24,6 +24,9 @@ attempt until the maximum delay value is reached.<br>
 > sleep_ms = random_between( 0, min( 2<sup>attempts_count</sup> * base_ms, maximum_ms ) )
 
 The library is written in C and designed to be compliant with ISO C90 and MISRA C.
+
+For a reference example of using the library, refer to the related README section on the repository [here](https://github.com/FreeRTOS/backoffAlgorithm#reference-example).
+
 </p>
 
 @section backoff_algorithm_memory_requirements Memory Requirements
