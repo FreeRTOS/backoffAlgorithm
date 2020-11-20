@@ -21,8 +21,8 @@
  */
 
 /**
- * @file retry_utils.c
- * @brief Implementation of the retry utils API for a "Full Jitter" exponential backoff
+ * @file backoff_algorithm.c
+ * @brief Implementation of the backoff algorithm API for a "Full Jitter" exponential backoff
  * with jitter strategy.
  */
 
@@ -31,29 +31,29 @@
 #include <assert.h>
 
 /* Include API header. */
-#include "retry_utils.h"
+#include "backoff_algorithm.h"
 
 /*-----------------------------------------------------------*/
 
-RetryUtilsStatus_t RetryUtils_GetNextBackOff( RetryUtilsContext_t * pRetryContext,
-                                              uint16_t * pNextBackOff )
+BackoffAlgorithmStatus_t BackoffAlgorithm_GetNextBackoff( BackoffAlgorithmContext_t * pRetryContext,
+                                                          uint16_t * pNextBackOff )
 {
-    RetryUtilsStatus_t status = RetryUtilsSuccess;
+    BackoffAlgorithmStatus_t status = BackoffAlgorithmSuccess;
     int32_t randomVal = 0;
 
     assert( pRetryContext != NULL );
     assert( pNextBackOff != NULL );
 
-    /* If RETRY_UTILS_RETRY_FOREVER is set to 0, try forever. */
+    /* If BACKOFF_ALGORITHM_RETRY_FOREVER is set to 0, try forever. */
     if( ( pRetryContext->attemptsDone < pRetryContext->maxRetryAttempts ) ||
-        ( pRetryContext->maxRetryAttempts == RETRY_UTILS_RETRY_FOREVER ) )
+        ( pRetryContext->maxRetryAttempts == BACKOFF_ALGORITHM_RETRY_FOREVER ) )
     {
         /* Generate a random number. */
         randomVal = pRetryContext->pRng();
 
         if( randomVal < 0 )
         {
-            status = RetryUtilsRngFailure;
+            status = BackoffAlgorithmRngFailure;
         }
         else
         {
@@ -81,9 +81,9 @@ RetryUtilsStatus_t RetryUtils_GetNextBackOff( RetryUtilsContext_t * pRetryContex
     else
     {
         /* When max retry attempts are exhausted, let application know by
-         * returning RetryUtilsRetriesExhausted. Application may choose to
-         * restart the retry process after calling RetryUtils_InitializeParams(). */
-        status = RetryUtilsRetriesExhausted;
+         * returning BackoffAlgorithmRetriesExhausted. Application may choose to
+         * restart the retry process after calling BackoffAlgorithm_InitializeParams(). */
+        status = BackoffAlgorithmRetriesExhausted;
     }
 
     return status;
@@ -91,11 +91,11 @@ RetryUtilsStatus_t RetryUtils_GetNextBackOff( RetryUtilsContext_t * pRetryContex
 
 /*-----------------------------------------------------------*/
 
-void RetryUtils_InitializeParams( RetryUtilsContext_t * pContext,
-                                  uint16_t backOffBase,
-                                  uint16_t maxBackOff,
-                                  uint32_t maxAttempts,
-                                  RetryUtils_RNG_t pRng )
+void BackoffAlgorithm_InitializeParams( BackoffAlgorithmContext_t * pContext,
+                                        uint16_t backOffBase,
+                                        uint16_t maxBackOff,
+                                        uint32_t maxAttempts,
+                                        BackoffAlgorithm_RNG_t pRng )
 {
     assert( pContext != NULL );
 

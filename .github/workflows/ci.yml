@@ -72,7 +72,7 @@ jobs:
         - name: Clone This Repo
           uses: actions/checkout@v2
           with:
-            path: libraries/standard/retry-utils
+            path: libraries/standard/backoff-algorithm
         - name: Install spell
           run: |
             sudo apt-get install spell
@@ -80,7 +80,7 @@ jobs:
         - name: Check spelling
           run: |
             PATH=$PATH:$PWD/tools/spell
-            for lexfile in `find libraries/standard/retry-utils -name lexicon.txt`
+            for lexfile in `find libraries/standard/backoff-algorithm -name lexicon.txt`
             do dir=${lexfile%/lexicon.txt}
               echo $dir
               find-unknown-comment-words --directory $dir
