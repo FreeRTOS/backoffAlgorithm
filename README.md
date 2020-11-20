@@ -127,9 +127,8 @@ git submodule update --checkout --init --recursive --test/unit-test/Unity
 ### Platform Prerequisites
 
 - For running unit tests
-    - C90 compiler like gcc
+    - C89 or later compiler like gcc
     - CMake 3.13.0 or later
-    - Ruby 2.0.0 or later is additionally required for the Unity test framework (that we use).
 - For running the coverage target, gcov is additionally required.
 
 ### Steps to build Unit Tests
