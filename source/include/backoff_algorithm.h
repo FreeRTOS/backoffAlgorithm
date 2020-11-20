@@ -83,6 +83,7 @@
 typedef int32_t ( * BackoffAlgorithm_RNG_t )();
 
 /**
+ * @ingroup backoff_algorithm_enum_types
  * @brief Status for @ref BackoffAlgorithm_GetNextBackoff.
  */
 typedef enum BackoffAlgorithmStatus
@@ -93,6 +94,7 @@ typedef enum BackoffAlgorithmStatus
 } BackoffAlgorithmStatus_t;
 
 /**
+ * @ingroup backoff_algorithm_struct_types
  * @brief Represents parameters required for calculating the back-off delay for the
  * next retry attempt.
  */
@@ -166,9 +168,9 @@ void BackoffAlgorithm_InitializeParams( BackoffAlgorithmContext_t * pContext,
  * @return #BackoffAlgorithmSuccess after a successful sleep, #BackoffAlgorithmRngFailure for a failure
  * in random number generation, #BackoffAlgorithmRetriesExhausted when all attempts are exhausted.
  */
-/* @[define_BackoffAlgorithm_GetNextBackoff] */
+/* @[define_backoffalgorithm_getnextbackoff] */
 BackoffAlgorithmStatus_t BackoffAlgorithm_GetNextBackoff( BackoffAlgorithmContext_t * pRetryContext,
                                                           uint16_t * pNextBackOff );
-/* @[define_BackoffAlgorithm_GetNextBackoff] */
+/* @[define_backoffalgorithm_getnextbackoff] */
 
 #endif /* ifndef BACKOFF_ALGORITHM_H_ */
