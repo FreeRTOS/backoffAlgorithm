@@ -1,9 +1,17 @@
-## backOffAlgorthm Library
+## backOffAlgorithm Library
 
-This repository contains the backoffAlgorithm library, a utility library to calculate interval period for network operation retries (like failed network connection with server) using exponential back-off with jitter algorithm. The backoffAlgorithm library is distributed under the [MIT Open Source License](LICENSE).
+This repository contains the backoffAlgorithm library, a utility library to calculate backoff period for network operation retries (like failed network connection with server) using an exponential backoff with jitter algorithm. The backoffAlgorithm library is distributed under the [MIT Open Source License](LICENSE).
 
-This library supports the "Full Jitter" algorithm for exponential back-off with jitter.
+This library uses the "Full Jitter" strategy for the exponential backoff with jitter algorithm.
 More information about the algorithm can be seen in the [Exponential Backoff and Jitter](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/) AWS blog. 
+
+Exponential backoff with jitter is typically used when retrying a failed
+connection or network operation with the server. An exponential backoff with jitter helps to
+mitigate the server request failure caused from network congestion or high request load on
+the server by spreading out retry requests across multiple devices.
+Besides, in an environment with poor connectivity, a client can get disconnected at any time. 
+A backoff strategy helps the client to conserve battery by not repeatedly attempting reconnections when they are
+unlikely to succeed.
 
 ## Reference example
 
@@ -119,9 +127,8 @@ git submodule update --checkout --init --recursive --test/unit-test/Unity
 ### Platform Prerequisites
 
 - For running unit tests
-    - C90 compiler like gcc
+    - C89 or later compiler like gcc
     - CMake 3.13.0 or later
-    - Ruby 2.0.0 or later is additionally required for the Unity test framework (that we use).
 - For running the coverage target, gcov is additionally required.
 
 ### Steps to build Unit Tests
