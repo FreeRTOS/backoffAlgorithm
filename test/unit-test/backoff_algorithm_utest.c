@@ -331,7 +331,7 @@ void test_BackoffAlgorithm_GetNextBackoff_NextJitterMax_Below_Cap_Backoff( void 
                        1,
                        TEST_BACKOFF_MAX_VALUE - 2U /* next jitter max value */,
                        TEST_BACKOFF_MAX_VALUE,
-                       TEST_MAX_ATTEMPTS );
+                       BACKOFF_ALGORITHM_RETRY_FOREVER );
 }
 
 /**
