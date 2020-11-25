@@ -1,4 +1,4 @@
-## backOffAlgorithm Library
+## backoffAlgorithm Library
 
 This repository contains the backoffAlgorithm library, a utility library to calculate backoff period for network operation retries (like failed network connection with server) using an exponential backoff with jitter algorithm. The backoffAlgorithm library is distributed under the [MIT Open Source License](LICENSE).
 
@@ -32,28 +32,6 @@ The example below shows how to use the backoffAlgorithm library to retry a DNS r
 /* The base back-off delay (in milliseconds) for retry configuration in the example. */
 #define RETRY_BACKOFF_BASE_MS         ( 500U )
 
-/**
- * A random number generator to provide to the backoffAlgorithm
- * library.
- *
- * This function is used in the exponential backoff with jitter algorithm
- * to calculate the backoff value for the next retry attempt.
- *
- * It is recommended to either use a True Random Number Generator (TRNG) for
- * calculation of unique back-off values in devices so that collision between
- * devices attempting retries at the same intervals can be avoided.
- * 
- * For the simplicity of the code example, this function is a pseudo 
- * random number generator.
- *
- * @return The generated random number. This example function ALWAYS succeeds
- * in generating a random number.
- */
-static int32_t pseudoRng()
-{
-    return( rand() % ( INT32_MAX ) );
-}
-
 int main()
 {
     /* Variables used in this example. */
@@ -77,10 +55,9 @@ int main()
 
     /* Initialize reconnect attempts and interval. */
     BackoffAlgorithm_InitializeParams( &retryParams,
-                                 RETRY_BACKOFF_BASE_MS,
-                                 RETRY_MAX_BACKOFF_DELAY_MS,
-                                 RETRY_MAX_ATTEMPTS,
-                                 pseudoRng );
+                                       RETRY_BACKOFF_BASE_MS,
+                                       RETRY_MAX_BACKOFF_DELAY_MS,
+                                       RETRY_MAX_ATTEMPTS );
 
     do
     {
@@ -90,8 +67,14 @@ int main()
         /* Retry if DNS resolution query failed. */
         if( dnsStatus != 0 )
         {
-            /* Get back-off value (in milliseconds) for the next retry. */
-            retryStatus = BackoffAlgorithm_GetNextBackoff( &retryParams, &nextRetryBackOff );
+            /* Generate a random number and get back-off value (in milliseconds) for the next retry.
+             * Note: It is recommended to either use a True Random Number Generator (TRNG) for
+             * calculation of unique back-off values in devices so that collision between
+             * devices attempting retries at the same intervals can be avoided.
+             *
+             * For the simplicity of the code example, the pseudo random number generator, rand() function
+             * is used. */
+            retryStatus = BackoffAlgorithm_GetNextBackoff( &retryParams, rand(), &nextRetryBackOff );
         }
     } while( ( dnsStatus != 0 ) && ( retryStatus != BackoffAlgorithmRetriesExhausted ) );
 

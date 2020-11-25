@@ -36,7 +36,7 @@ For a reference example of using the library, refer to the related README sectio
 
 <table>
     <tr>
-        <td colspan="4"><center><b>Code size of backoffAlgorithm library files (sizes generated with [GCC for ARM Cortex-M toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads/9-2020-q2-update))</b></center></td>
+        <td colspan="4"><center><b>Code size (in bytes) of backoffAlgorithm library files (sizes generated with [GCC for ARM Cortex-M toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads/9-2020-q2-update))</b></center></td>
     </tr>
     <tr>
         <td><b>File</b></td>
@@ -46,9 +46,9 @@ For a reference example of using the library, refer to the related README sectio
     </tr>
     <tr>
         <td>backoff_algorithm.c</td>
-        <td>0.6K</td>
-        <td>0.2K</td>
-        <td>0.2K</td>
+        <td>678</td>
+        <td>140</td>
+        <td>136</td>
     </tr>
 </table>
 
@@ -61,13 +61,12 @@ All functions in the backoffAlgorithm library operate only on the buffer provide
 local variables on the stack.
 </p>
 
-<h3>Random Number Generator</h3>
+<h3>Random Number Generation</h3>
 <p>
-The library requires a platform-specific random number generator for the "jitter"
-part of the algorithm when generating the next backoff value. To avoid calculation
-of the same random numbers across your fleet of devices attempting retry of network
-operations, it is RECOMMENDED to provide a random number generator that is seeded with
-an entropy source unique to the device.
+The library takes a random number each time it calculates the backoff period value for the 
+retry attempt. To avoid calculation of the same random numbers across your fleet of devices
+attempting retry of network operations, it is RECOMMENDED to generate the random number with
+a random number generator that is seeded with an entropy source unique to the device.
 </p>
 
 <h3>Compliance & Coverage</h3>
