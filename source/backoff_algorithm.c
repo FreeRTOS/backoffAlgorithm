@@ -36,10 +36,10 @@
 /*-----------------------------------------------------------*/
 
 BackoffAlgorithmStatus_t BackoffAlgorithm_GetNextBackoff( BackoffAlgorithmContext_t * pRetryContext,
+                                                          uint32_t randomValue,
                                                           uint16_t * pNextBackOff )
 {
     BackoffAlgorithmStatus_t status = BackoffAlgorithmSuccess;
-    int32_t randomVal = 0;
 
     assert( pRetryContext != NULL );
     assert( pNextBackOff != NULL );
@@ -48,34 +48,24 @@ BackoffAlgorithmStatus_t BackoffAlgorithm_GetNextBackoff( BackoffAlgorithmContex
     if( ( pRetryContext->attemptsDone < pRetryContext->maxRetryAttempts ) ||
         ( pRetryContext->maxRetryAttempts == BACKOFF_ALGORITHM_RETRY_FOREVER ) )
     {
-        /* Generate a random number. */
-        randomVal = pRetryContext->pRng();
+        /* The next backoff value is a random value between 0 and the maximum jitter value
+         * for the retry attempt. */
 
-        if( randomVal < 0 )
+        /* Choose a random value for back-off time between 0 and the max jitter value. */
+        *pNextBackOff = ( uint16_t ) ( randomValue % ( pRetryContext->nextJitterMax + 1U ) );
+
+        /* Increment the retry attempt. */
+        pRetryContext->attemptsDone++;
+
+        /* Double the max jitter value for the next retry attempt, only
+         * if the new value will be less than the max backoff time value. */
+        if( pRetryContext->nextJitterMax < ( pRetryContext->maxBackoffDelay / 2U ) )
         {
-            status = BackoffAlgorithmRngFailure;
+            pRetryContext->nextJitterMax += pRetryContext->nextJitterMax;
         }
         else
         {
-            /* The next backoff value is a random value between 0 and the maximum jitter value
-             * for the retry attempt. */
-
-            /* Choose a random value for back-off time between 0 and the max jitter value. */
-            *pNextBackOff = ( uint16_t ) ( randomVal % ( pRetryContext->nextJitterMax + 1U ) );
-
-            /* Increment the retry attempt. */
-            pRetryContext->attemptsDone++;
-
-            /* Double the max jitter value for the next retry attempt, only
-             * if the new value will be less than the max backoff time value. */
-            if( pRetryContext->nextJitterMax < ( pRetryContext->maxBackOffDelay / 2U ) )
-            {
-                pRetryContext->nextJitterMax += pRetryContext->nextJitterMax;
-            }
-            else
-            {
-                pRetryContext->nextJitterMax = pRetryContext->maxBackOffDelay;
-            }
+            pRetryContext->nextJitterMax = pRetryContext->maxBackoffDelay;
         }
     }
     else
@@ -94,17 +84,15 @@ BackoffAlgorithmStatus_t BackoffAlgorithm_GetNextBackoff( BackoffAlgorithmContex
 void BackoffAlgorithm_InitializeParams( BackoffAlgorithmContext_t * pContext,
                                         uint16_t backOffBase,
                                         uint16_t maxBackOff,
-                                        uint32_t maxAttempts,
-                                        BackoffAlgorithm_RNG_t pRng )
+                                        uint32_t maxAttempts )
 {
     assert( pContext != NULL );
 
     /* Initialize the context with parameters used in calculating the backoff
      * value for the next retry attempt. */
     pContext->nextJitterMax = backOffBase;
-    pContext->maxBackOffDelay = maxBackOff;
+    pContext->maxBackoffDelay = maxBackOff;
     pContext->maxRetryAttempts = maxAttempts;
-    pContext->pRng = pRng;
 
     /* The total number of retry attempts is zero at initialization. */
     pContext->attemptsDone = 0;

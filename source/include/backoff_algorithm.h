@@ -43,27 +43,12 @@
 #define BACKOFF_ALGORITHM_RETRY_FOREVER    0
 
 /**
- * @brief Interface for a random number generator.
- * The user should supply the platform-specific random number generator to the
- * library through the @ref BackoffAlgorithm_InitializeParams API function.
- *
- * @note It is recommended that a true random number generator is supplied
- * to the library. The random number generator should be seeded with an entropy
- * source in the system.
- *
- * @return The random number if successful; otherwise a negative value to indicate
- * failure.
- */
-typedef int32_t ( * BackoffAlgorithm_RNG_t )();
-
-/**
  * @ingroup backoff_algorithm_enum_types
  * @brief Status for @ref BackoffAlgorithm_GetNextBackoff.
  */
 typedef enum BackoffAlgorithmStatus
 {
     BackoffAlgorithmSuccess = 0,     /**< @brief The function successfully calculated the next back-off value. */
-    BackoffAlgorithmRngFailure = 1,  /**< @brief The function encountered failure in generating random number. */
     BackoffAlgorithmRetriesExhausted /**< @brief The function exhausted all retry attempts. */
 } BackoffAlgorithmStatus_t;
 
@@ -77,7 +62,7 @@ typedef struct BackoffAlgorithmContext
     /**
      * @brief The maximum backoff delay (in milliseconds) between consecutive retry attempts.
      */
-    uint16_t maxBackOffDelay;
+    uint16_t maxBackoffDelay;
 
     /**
      * @brief The total number of retry attempts completed.
@@ -94,12 +79,6 @@ typedef struct BackoffAlgorithmContext
      * @brief The maximum number of retry attempts.
      */
     uint32_t maxRetryAttempts;
-
-    /**
-     * @brief The random number generator function used for calculating the
-     * backoff value for the next retry attempt.
-     */
-    BackoffAlgorithm_RNG_t pRng;
 } BackoffAlgorithmContext_t;
 
 /**
@@ -115,15 +94,12 @@ typedef struct BackoffAlgorithmContext
  * use in the exponential backoff and jitter model.
  * @param[in] maxAttempts The maximum number of retry attempts. Set the value to
  * #BACKOFF_ALGORITHM_RETRY_FOREVER to retry for ever.
- * @param[in] pRng The platform-specific function to use for random number generation.
- * The random number generator should be seeded before calling this function.
  */
 /* @[define_backoffalgorithm_initializeparams] */
 void BackoffAlgorithm_InitializeParams( BackoffAlgorithmContext_t * pContext,
                                         uint16_t backOffBase,
                                         uint16_t maxBackOff,
-                                        uint32_t maxAttempts,
-                                        BackoffAlgorithm_RNG_t pRng );
+                                        uint32_t maxAttempts );
 /* @[define_backoffalgorithm_initializeparams] */
 
 /**
@@ -135,15 +111,22 @@ void BackoffAlgorithm_InitializeParams( BackoffAlgorithmContext_t * pContext,
  *
  * @param[in, out] pRetryContext Structure containing parameters for the next backoff
  * value calculation.
+ * @param[in] randomValue The random value to use for calculation of the backoff period.
+ * The random value should be in the range of [0, UINT32_MAX].
  * @param[out] pNextBackOff This will be populated with the backoff value (in milliseconds)
  * for the next retry attempt. The value does not exceed the maximum backoff delay
  * configured in the context.
  *
- * @return #BackoffAlgorithmSuccess after a successful sleep, #BackoffAlgorithmRngFailure for a failure
- * in random number generation, #BackoffAlgorithmRetriesExhausted when all attempts are exhausted.
+ * @note It is recommended that a True Random Number Generator (TRNG) is used to generate
+ * the random value. Using a random number generator that generates device-specific unique values
+ * specific mitigates possibility of collision between multiple devices retrying the network operations.
+ *
+ * @return #BackoffAlgorithmSuccess after a successful sleep;
+ * #BackoffAlgorithmRetriesExhausted when all attempts are exhausted.
  */
 /* @[define_backoffalgorithm_getnextbackoff] */
 BackoffAlgorithmStatus_t BackoffAlgorithm_GetNextBackoff( BackoffAlgorithmContext_t * pRetryContext,
+                                                          uint32_t randomValue,
                                                           uint16_t * pNextBackOff );
 /* @[define_backoffalgorithm_getnextbackoff] */
 

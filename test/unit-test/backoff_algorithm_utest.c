@@ -33,9 +33,6 @@
 /* Backoff Algorithm library include */
 #include "backoff_algorithm.h"
 
-/* Return value of mockRng. */
-static int32_t randomValToReturn;
-
 #define TEST_BACKOFF_BASE_VALUE    ( 1000 )
 #define TEST_BACKOFF_MAX_VALUE     ( 10000 )
 #define TEST_MAX_ATTEMPTS          ( 5 )
@@ -43,15 +40,8 @@ static int32_t randomValToReturn;
 static BackoffAlgorithmContext_t retryParams;
 /* Return value of #BackoffAlgorithm_GetNextBackoff. */
 static BackoffAlgorithmStatus_t BackoffAlgorithmStatus;
-static uint16_t nextBackOff;
-
-/**
- * @brief A mock random number generator.
- */
-static int32_t mockRng()
-{
-    return randomValToReturn;
-}
+static uint16_t nextBackoff;
+static uint32_t testRandomVal;
 
 /* ============================   UNITY FIXTURES ============================ */
 
@@ -62,16 +52,15 @@ void setUp()
     BackoffAlgorithm_InitializeParams( &retryParams,
                                        TEST_BACKOFF_BASE_VALUE,
                                        TEST_BACKOFF_MAX_VALUE,
-                                       TEST_MAX_ATTEMPTS,
-                                       mockRng );
+                                       TEST_MAX_ATTEMPTS );
 }
 
 /* Called after each test method. */
 void tearDown()
 {
-    randomValToReturn = 0;
+    testRandomVal = 0;
     BackoffAlgorithmStatus = BackoffAlgorithmSuccess;
-    nextBackOff = 0;
+    nextBackoff = 0;
 }
 
 /* Called at the beginning of the whole suite. */
@@ -93,15 +82,13 @@ int suiteTearDown( int numFailures )
 static void verifyContextData( BackoffAlgorithmContext_t * pContext,
                                uint32_t expectedAttemptsDone,
                                uint16_t expectedNextJitterMax,
-                               uint16_t expectedMaxBackOff,
-                               uint32_t expectedMaxAttempts,
-                               BackoffAlgorithm_RNG_t pExpectedRng )
+                               uint16_t expectedMaxBackoff,
+                               uint32_t expectedMaxAttempts )
 {
     TEST_ASSERT_EQUAL( expectedNextJitterMax, pContext->nextJitterMax );
     TEST_ASSERT_EQUAL( expectedAttemptsDone, pContext->attemptsDone );
     TEST_ASSERT_EQUAL( expectedMaxAttempts, pContext->maxRetryAttempts );
-    TEST_ASSERT_EQUAL( expectedMaxBackOff, pContext->maxBackOffDelay );
-    TEST_ASSERT_EQUAL_PTR( pExpectedRng, pContext->pRng );
+    TEST_ASSERT_EQUAL( expectedMaxBackoff, pContext->maxBackoffDelay );
 }
 
 /**
@@ -113,8 +100,7 @@ void test_BackoffAlgorithm_InitializeParams_Invalid_Context( void )
     catch_assert( BackoffAlgorithm_InitializeParams( NULL /* Invalid context */,
                                                      TEST_BACKOFF_BASE_VALUE,
                                                      TEST_BACKOFF_MAX_VALUE,
-                                                     TEST_MAX_ATTEMPTS,
-                                                     mockRng ) );
+                                                     TEST_MAX_ATTEMPTS ) );
 }
 
 /**
@@ -126,53 +112,12 @@ void test_BackoffAlgorithm_InitializeParams_Sets_Jitter_Correctly( void )
     BackoffAlgorithm_InitializeParams( &retryParams,
                                        TEST_BACKOFF_BASE_VALUE,
                                        TEST_BACKOFF_MAX_VALUE,
-                                       TEST_MAX_ATTEMPTS,
-                                       mockRng );
+                                       TEST_MAX_ATTEMPTS );
     verifyContextData( &retryParams,
                        0,
                        TEST_BACKOFF_BASE_VALUE,
                        TEST_BACKOFF_MAX_VALUE,
-                       TEST_MAX_ATTEMPTS,
-                       mockRng );
-}
-
-/**
- * @brief Test that #BackoffAlgorithm_GetNextBackoff returns the expected failure
- * and does not update the context data when the random number generator fails.
- */
-void test_BackoffAlgorithm_GetNextBackoff_Rng_Failure( void )
-{
-    int32_t testNegativeVal[] = { -1, -10 };
-    uint iter = 0;
-
-    /* Initialize context with random number generator that fails. */
-    BackoffAlgorithm_InitializeParams( &retryParams,
-                                       TEST_BACKOFF_BASE_VALUE,
-                                       TEST_BACKOFF_MAX_VALUE,
-                                       BACKOFF_ALGORITHM_RETRY_FOREVER,
-                                       mockRng );
-
-    /* Test the #BackoffAlgorithm_GetNextBackoff API with the 2 negative values
-     * from the mock random number generator. */
-
-    for( ; iter < sizeof( testNegativeVal ) / sizeof( int32_t ); iter++ )
-    {
-        /* Set the random value generated to be negative. */
-        randomValToReturn = testNegativeVal[ iter ];
-
-        /* Make sure that the API function returns RNG failure.*/
-        TEST_ASSERT_EQUAL( BackoffAlgorithmRngFailure,
-                           BackoffAlgorithm_GetNextBackoff( &retryParams, &nextBackOff ) );
-
-        /* Make sure that the context data has not changed as the call to
-         * BackoffAlgorithm_GetNextBackoff failed. */
-        verifyContextData( &retryParams,
-                           0,
-                           TEST_BACKOFF_BASE_VALUE,
-                           TEST_BACKOFF_MAX_VALUE,
-                           BACKOFF_ALGORITHM_RETRY_FOREVER,
-                           mockRng );
-    }
+                       TEST_MAX_ATTEMPTS );
 }
 
 /**
@@ -188,17 +133,17 @@ void test_BackoffAlgorithm_GetNextBackoff_Success_RandVal_Less_Than_Jitter_Max( 
     int iter = 1;
     uint16_t expectedAttemptsDone = 0;
     uint16_t expectedNextJitterMax = TEST_BACKOFF_BASE_VALUE;
-    uint16_t expectedNextBackOff = 0;
+    uint16_t expectedNextBackoff = 0;
 
     for( ; iter < 2; iter++ )
     {
-        /* Set the random value to be generated as a value lower than
+        /* Set the random value as a value lower than
          * the jitter max value for the next retry attempt. */
-        randomValToReturn = retryParams.nextJitterMax / 2;
+        testRandomVal = retryParams.nextJitterMax / 2;
 
         /* As the random value is less than the max jitter value, the expected
          * next backoff value should remain the same as the random value. */
-        expectedNextBackOff = randomValToReturn;
+        expectedNextBackoff = testRandomVal;
 
         /* The jitter max value should double with the above call for use in next call. */
         expectedNextJitterMax *= 2;
@@ -210,16 +155,15 @@ void test_BackoffAlgorithm_GetNextBackoff_Success_RandVal_Less_Than_Jitter_Max( 
 
         /* Call the BackoffAlgorithm_GetNextBackoff API a couple times. */
         TEST_ASSERT_EQUAL( BackoffAlgorithmSuccess,
-                           BackoffAlgorithm_GetNextBackoff( &retryParams, &nextBackOff ) );
-        TEST_ASSERT_EQUAL( expectedNextBackOff, nextBackOff );
+                           BackoffAlgorithm_GetNextBackoff( &retryParams, testRandomVal, &nextBackoff ) );
+        TEST_ASSERT_EQUAL( expectedNextBackoff, nextBackoff );
 
         /* Verify that the context data for expected data after the API call. */
         verifyContextData( &retryParams,
                            expectedAttemptsDone,
                            expectedNextJitterMax,
                            TEST_BACKOFF_MAX_VALUE,
-                           TEST_MAX_ATTEMPTS,
-                           mockRng );
+                           TEST_MAX_ATTEMPTS );
     }
 }
 
@@ -239,9 +183,9 @@ void test_BackoffAlgorithm_GetNextBackoff_Success_RandVal_More_Than_Jitter_Max( 
 
     for( ; iter < 2; iter++ )
     {
-        /* Set the random value to be generated as a value greater than
+        /* Set the random value as a value greater than
          * the jitter max value for the next retry attempt. */
-        randomValToReturn = retryParams.nextJitterMax + 1;
+        testRandomVal = retryParams.nextJitterMax + 1;
 
         /* The jitter max value should double with the above call for use in next call. */
         expectedNextJitterMax *= 2;
@@ -253,20 +197,19 @@ void test_BackoffAlgorithm_GetNextBackoff_Success_RandVal_More_Than_Jitter_Max( 
         /* As the random value is greater than the jitter max value, the expected
          * next backoff value should be truncated to a value within the jitter window
          * for the retry attempt. */
-        uint16_t expectedNextBackOff = ( randomValToReturn % ( retryParams.nextJitterMax + 1U ) );
+        uint16_t expectedNextBackoff = ( testRandomVal % ( retryParams.nextJitterMax + 1U ) );
 
         /* Call the BackoffAlgorithm_GetNextBackoff API a couple times. */
         TEST_ASSERT_EQUAL( BackoffAlgorithmSuccess,
-                           BackoffAlgorithm_GetNextBackoff( &retryParams, &nextBackOff ) );
-        TEST_ASSERT_EQUAL( expectedNextBackOff, nextBackOff );
+                           BackoffAlgorithm_GetNextBackoff( &retryParams, testRandomVal, &nextBackoff ) );
+        TEST_ASSERT_EQUAL( expectedNextBackoff, nextBackoff );
 
         /* Verify that the context data for expected data after the API call. */
         verifyContextData( &retryParams,
                            expectedAttemptsDone,
                            expectedNextJitterMax,
                            TEST_BACKOFF_MAX_VALUE,
-                           TEST_MAX_ATTEMPTS,
-                           mockRng );
+                           TEST_MAX_ATTEMPTS );
     }
 }
 
@@ -282,9 +225,9 @@ void test_BackoffAlgorithm_GetNextBackoff_Attempts_Exhausted()
 
     /* Call the BackoffAlgorithm_GetNextBackoff API. */
     TEST_ASSERT_EQUAL( BackoffAlgorithmRetriesExhausted,
-                       BackoffAlgorithm_GetNextBackoff( &retryParams, &nextBackOff ) );
+                       BackoffAlgorithm_GetNextBackoff( &retryParams, testRandomVal, &nextBackoff ) );
     /* Make sure that the value of the output parameter has not changed. */
-    TEST_ASSERT_EQUAL( 0, nextBackOff );
+    TEST_ASSERT_EQUAL( 0, nextBackoff );
 
     /* Make sure that the context data has not changed as the call to
      * BackoffAlgorithm_GetNextBackoff failed. */
@@ -292,15 +235,14 @@ void test_BackoffAlgorithm_GetNextBackoff_Attempts_Exhausted()
                        TEST_MAX_ATTEMPTS /* Number of attempts shouldn't change */,
                        TEST_BACKOFF_BASE_VALUE,
                        TEST_BACKOFF_MAX_VALUE,
-                       TEST_MAX_ATTEMPTS,
-                       mockRng );
+                       TEST_MAX_ATTEMPTS );
 }
 
 /**
- * @brief Test that the value of the next max jitter has a lower bound that will
- * then be capped at some max threshold.
+ * @brief Tests that the #BackoffAlgorithm_GetNextBackoff API does not calculate a backoff period
+ * beyond the configured maximum backoff period.
  */
-void test_BackoffAlgorithm_GetNextBackoff_Returns_Cap_BackOff( void )
+void test_BackoffAlgorithm_GetNextBackoff_Returns_Cap_Backoff( void )
 {
     /* Initialize to 0 attempts, so the max value of next jitter will increase. */
     retryParams.attemptsDone = 0U;
@@ -310,17 +252,17 @@ void test_BackoffAlgorithm_GetNextBackoff_Returns_Cap_BackOff( void )
      * the configured maximum backoff value. */
     retryParams.nextJitterMax = ( TEST_BACKOFF_MAX_VALUE / 2U ) + 1;
 
-    /* Set the random value to be generated equal to the current jitter max value.
+    /* Set the random value equal to the current jitter max value.
      * Thus, the BackoffAlgorithm_GetNextBackoff API should return the random value as
      * the next back-off value. */
-    randomValToReturn = retryParams.nextJitterMax;
-    uint16_t expectedBackOffVal = randomValToReturn;
+    testRandomVal = retryParams.nextJitterMax;
+    uint16_t expectedBackoffVal = testRandomVal;
 
     /* Call the BackoffAlgorithm_GetNextBackoff API. */
     TEST_ASSERT_EQUAL( BackoffAlgorithmSuccess,
-                       BackoffAlgorithm_GetNextBackoff( &retryParams, &nextBackOff ) );
+                       BackoffAlgorithm_GetNextBackoff( &retryParams, testRandomVal, &nextBackoff ) );
     /* Make sure that the expected value is returned for the next backoff. */
-    TEST_ASSERT_EQUAL( expectedBackOffVal, nextBackOff );
+    TEST_ASSERT_EQUAL( expectedBackoffVal, nextBackoff );
 
     /* Verify that the next jitter max value has been set to the cap back-off value
      * configured in the context. */
@@ -328,44 +270,42 @@ void test_BackoffAlgorithm_GetNextBackoff_Returns_Cap_BackOff( void )
                        1,
                        TEST_BACKOFF_MAX_VALUE /* New jitter max */,
                        TEST_BACKOFF_MAX_VALUE,
-                       TEST_MAX_ATTEMPTS,
-                       mockRng );
+                       TEST_MAX_ATTEMPTS );
 
 
-    /* Now, set the random value to be generated as the maximum back-off value to
+    /* Now, set the random value as the maximum back-off value to
      * expect that the next back-off value returned by the API is the maximum
      * back-off value.*/
-    randomValToReturn = TEST_BACKOFF_MAX_VALUE;
+    testRandomVal = TEST_BACKOFF_MAX_VALUE;
 
     /* Call BackoffAlgorithm_GetNextBackoff API again to verify that it now returns the
      * cap value as the next back-off value. */
     TEST_ASSERT_EQUAL( BackoffAlgorithmSuccess,
-                       BackoffAlgorithm_GetNextBackoff( &retryParams, &nextBackOff ) );
+                       BackoffAlgorithm_GetNextBackoff( &retryParams, testRandomVal, &nextBackoff ) );
     /* Make sure that the capped backoff value is returned as the next backoff value . */
-    TEST_ASSERT_EQUAL( TEST_BACKOFF_MAX_VALUE, nextBackOff );
+    TEST_ASSERT_EQUAL( TEST_BACKOFF_MAX_VALUE, nextBackoff );
 
     /* Verify that the context data for expected data after the API call. */
     verifyContextData( &retryParams,
                        2,
                        TEST_BACKOFF_MAX_VALUE /* jitter max remains unchanged */,
                        TEST_BACKOFF_MAX_VALUE,
-                       TEST_MAX_ATTEMPTS,
-                       mockRng );
+                       TEST_MAX_ATTEMPTS );
 }
 
 /**
- * @brief Test that the value of the next max jitter has a lower bound that will
- * then be capped at some max threshold.
+ * @brief Tests the #BackoffAlgorithm_GetNextBackoff API when the next jitter max value
+ * is one lower than half of the maximum backoff value. This tests that the API does not
+ * update the next jitter max to the maximum backoff value in this case.
  */
-void test_BackoffAlgorithm_GetNextBackoff_Returns_Rand_Val( void )
+void test_BackoffAlgorithm_GetNextBackoff_NextJitterMax_Below_Cap_Backoff( void )
 {
     /* Initialize to 0 attempts, so the max value of next jitter will increase. */
     retryParams.attemptsDone = 0U;
 
-    /* Set the returned random value to zero to test that the
-     * BackoffAlgorithm_GetNextBackoff API will return zero as the
-     * next back-off value.*/
-    randomValToReturn = 0;
+    /* Set the random value to zero to test that the BackoffAlgorithm_GetNextBackoff
+     * API will return zero as the next back-off value.*/
+    testRandomVal = 0;
 
     /* Update the next jitter max value to one less than half of max backoff
      * to make sure that the BackoffAlgorithm_GetNextBackoff API does not update it
@@ -374,17 +314,16 @@ void test_BackoffAlgorithm_GetNextBackoff_Returns_Rand_Val( void )
 
     /* Call the BackoffAlgorithm_GetNextBackoff API. */
     TEST_ASSERT_EQUAL( BackoffAlgorithmSuccess,
-                       BackoffAlgorithm_GetNextBackoff( &retryParams, &nextBackOff ) );
+                       BackoffAlgorithm_GetNextBackoff( &retryParams, testRandomVal, &nextBackoff ) );
     /* Make sure that zero is returned as the next backoff value . */
-    TEST_ASSERT_EQUAL( 0, nextBackOff );
+    TEST_ASSERT_EQUAL( 0, nextBackoff );
 
     /* Verify that the context data for expected data after the API call. */
     verifyContextData( &retryParams,
                        1,
                        TEST_BACKOFF_MAX_VALUE - 2U /* next jitter max value */,
                        TEST_BACKOFF_MAX_VALUE,
-                       TEST_MAX_ATTEMPTS,
-                       mockRng );
+                       TEST_MAX_ATTEMPTS );
 }
 
 /**
@@ -394,8 +333,8 @@ void test_BackoffAlgorithm_GetNextBackoff_Returns_Rand_Val( void )
 void test_BackoffAlgorithm_GetNextBackoff_Invalid_Params()
 {
     /* Invalid context. */
-    catch_assert( BackoffAlgorithm_GetNextBackoff( NULL, &nextBackOff ) );
+    catch_assert( BackoffAlgorithm_GetNextBackoff( NULL, testRandomVal, &nextBackoff ) );
 
     /* Invalid output parameter for next back-off. */
-    catch_assert( BackoffAlgorithm_GetNextBackoff( &retryParams, NULL ) );
+    catch_assert( BackoffAlgorithm_GetNextBackoff( &retryParams, testRandomVal, NULL ) );
 }
