@@ -48,7 +48,7 @@ static uint32_t testRandomVal;
 /* Called before each test method. */
 void setUp()
 {
-    /* Initialize context with random number generator that succeeds. */
+    /* Initialize context. */
     BackoffAlgorithm_InitializeParams( &retryParams,
                                        TEST_BACKOFF_BASE_VALUE,
                                        TEST_BACKOFF_MAX_VALUE,
@@ -300,6 +300,14 @@ void test_BackoffAlgorithm_GetNextBackoff_Returns_Cap_Backoff( void )
  */
 void test_BackoffAlgorithm_GetNextBackoff_NextJitterMax_Below_Cap_Backoff( void )
 {
+    /* Initialize context.
+     * Use the configuration constant of retrying forever to achieve branch coverage in tests
+     * for the configuration. */
+    BackoffAlgorithm_InitializeParams( &retryParams,
+                                       TEST_BACKOFF_BASE_VALUE,
+                                       TEST_BACKOFF_MAX_VALUE,
+                                       BACKOFF_ALGORITHM_RETRY_FOREVER );
+
     /* Initialize to 0 attempts, so the max value of next jitter will increase. */
     retryParams.attemptsDone = 0U;
 

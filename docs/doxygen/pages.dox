@@ -63,7 +63,7 @@ local variables on the stack.
 
 <h3>Random Number Generation</h3>
 <p>
-The library takes a random number each time it calculates the backoff period value for the 
+The library takes a random number each time it calculates the backoff period value for the
 retry attempt. To avoid calculation of the same random numbers across your fleet of devices
 attempting retry of network operations, it is RECOMMENDED to generate the random number with
 a random number generator that is seeded with an entropy source unique to the device.
