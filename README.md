@@ -80,9 +80,9 @@ int main()
         if( dnsStatus != 0 )
         {
             /* Generate a random number and get back-off value (in milliseconds) for the next retry.
-             * Note: It is recommended to either use a True Random Number Generator (TRNG) for
-             * calculation of unique back-off values in devices so that collision between
-             * devices attempting retries at the same intervals can be avoided.
+             * Note: It is recommended to use a random number generator that is seeded with
+             * device-specific entropy source so that backoff calculation in devices is different 
+             * and possibility of network collision between devices attempting retries can be avoided.
              *
              * For the simplicity of the code example, the pseudo random number generator, rand() function
              * is used. */
