@@ -117,9 +117,9 @@ void BackoffAlgorithm_InitializeParams( BackoffAlgorithmContext_t * pContext,
  * for the next retry attempt. The value does not exceed the maximum backoff delay
  * configured in the context.
  *
- * @note It is recommended that a True Random Number Generator (TRNG) is used to generate
- * the random value. Using a random number generator that generates device-specific unique values
- * specific mitigates possibility of collision between multiple devices retrying the network operations.
+ * @note For generating a random number, it is recommended to use a Random Number Generator
+ * that is seeded with a device-specific entropy source so that possibility of collisions
+ * between multiple devices retrying the network operations can be mitigated.
  *
  * @return #BackoffAlgorithmSuccess after a successful sleep;
  * #BackoffAlgorithmRetriesExhausted when all attempts are exhausted.
