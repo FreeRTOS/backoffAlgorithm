@@ -22,6 +22,7 @@ The example below shows how to use the backoffAlgorithm library to retry a DNS r
 #include <stdlib.h>
 #include <string.h>
 #include <netdb.h>
+#include <time.h>
 
 /* The maximum number of retries for the example code. */
 #define RETRY_MAX_ATTEMPTS            ( 5U )
@@ -43,6 +44,7 @@ int main()
     int32_t dnsStatus = -1;
     struct addrinfo hints;
     struct addrinfo ** pListHead;
+    struct timespec tp;
 
     /* Add hints to retrieve only TCP sockets in getaddrinfo. */
     ( void ) memset( &hints, 0, sizeof( hints ) );
@@ -58,6 +60,16 @@ int main()
                                        RETRY_BACKOFF_BASE_MS,
                                        RETRY_MAX_BACKOFF_DELAY_MS,
                                        RETRY_MAX_ATTEMPTS );
+
+
+    /* Seed the pseudo random number generator used in this example (with call to
+     * rand() function provided by ISO C standard library) for use in backoff period
+     * calculation when retrying failed DNS resolution. */
+
+    /* Get current time to seed pseudo random number generator. */
+    ( void ) clock_gettime( CLOCK_REALTIME, &tp );
+    /* Seed pseudo random number generator with nanoseconds. */
+    srand( tp.tv_nsec );
 
     do
     {
