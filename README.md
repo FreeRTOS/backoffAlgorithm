@@ -68,8 +68,8 @@ int main()
 
     /* Get current time to seed pseudo random number generator. */
     ( void ) clock_gettime( CLOCK_REALTIME, &tp );
-    /* Seed pseudo random number generator with nanoseconds. */
-    srand( tp.tv_nsec );
+    /* Seed pseudo random number generator with seconds. */
+    srand( tp.tv_sec );
 
     do
     {
