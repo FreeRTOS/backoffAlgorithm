@@ -1,14 +1,15 @@
 ## backoffAlgorithm Library
 
-This repository contains the backoffAlgorithm library, a utility library to calculate backoff period for network operation retries (like failed network connection with server) using an exponential backoff with jitter algorithm. The backoffAlgorithm library is distributed under the [MIT Open Source License](LICENSE).
-
+This repository contains the backoffAlgorithm library, a utility library to calculate backoff period using an exponential backoff with jitter algorithm for retrying network operations (like failed network connection with server). 
 This library uses the "Full Jitter" strategy for the exponential backoff with jitter algorithm.
 More information about the algorithm can be seen in the [Exponential Backoff and Jitter](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/) AWS blog. 
 
-Exponential backoff with jitter is typically used when retrying a failed
-connection or network operation with the server. An exponential backoff with jitter helps to
-mitigate the server request failure caused from network congestion or high request load on
-the server by spreading out retry requests across multiple devices.
+The backoffAlgorithm library is distributed under the [MIT Open Source License](LICENSE).
+
+Exponential backoff with jitter is typically used when retrying a failed network
+connection or operation request with the server. An exponential backoff with jitter helps to
+mitigate failed network operations with servers, that are caused due to network congestion or high request load on
+the server, by spreading out retry requests across multiple devices attempting network operations.
 Besides, in an environment with poor connectivity, a client can get disconnected at any time. 
 A backoff strategy helps the client to conserve battery by not repeatedly attempting reconnections when they are
 unlikely to succeed.
