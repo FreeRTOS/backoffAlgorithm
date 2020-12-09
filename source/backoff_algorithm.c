@@ -27,8 +27,8 @@
  */
 
 /* Standard includes. */
-#include <stdlib.h>
 #include <assert.h>
+#include <stddef.h>
 
 /* Include API header. */
 #include "backoff_algorithm.h"

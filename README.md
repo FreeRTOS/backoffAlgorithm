@@ -97,7 +97,10 @@ int main()
 
 ## Building the library
 
-A compiler that supports **C89 or later** such as *gcc* is required to build the library.
+A compiler that supports **C90 or later** such as *gcc* is required to build the library.
+
+Additionally, the library uses a header file introduced in ISO C99, `stdint.h`. For compilers that do not provide this header file, the [source/include](source/include) directory contains [stdint.readme](source/include/stdint.readme), which can be renamed to `stdint.h` to
+build the backoffAlgorithm library.
 
 For instance, if the example above is copied to a file named `example.c`, *gcc* can be used like so:
 ```bash
