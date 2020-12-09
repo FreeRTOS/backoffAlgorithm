@@ -158,4 +158,4 @@ jobs:
           -G "Unix Makefiles" \
           -DBUILD_CLONE_SUBMODULES=ON \
           -DCMAKE_C_FLAGS='-Wall -Wextra -Werror -I../override-include'
-          make -C build/ coverity_analysis          
+          make -C build/ coverity_analysis
