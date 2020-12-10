@@ -14,6 +14,8 @@ Besides, in an environment with poor connectivity, a client can get disconnected
 A backoff strategy helps the client to conserve battery by not repeatedly attempting reconnections when they are
 unlikely to succeed.
 
+See memory requirements for this library [here](https://docs.aws.amazon.com/embedded-csdk/202011.00/lib-ref/libraries/standard/backoffAlgorithm/docs/doxygen/output/html/index.html#backoff_algorithm_memory_requirements)
+
 ## Reference example
 
 The example below shows how to use the backoffAlgorithm library to retry a DNS resolution query for `amazon.com`.
