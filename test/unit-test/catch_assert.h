@@ -62,18 +62,17 @@ static void catchHandler_( int signal )
         close( 2 );                          \
         if( setjmp( CATCH_JMPBUF ) == 0 )    \
         {                                    \
-            try ++;                          \
+            try++;                           \
             x;                               \
         }                                    \
         else                                 \
         {                                    \
-            catch ++;                        \
+            catch++;                         \
         }                                    \
         sigaction( SIGABRT, &saveSa, NULL ); \
         dup2( saveFd, 2 );                   \
         close( saveFd );                     \
-        TEST_ASSERT_EQUAL ( try , catch );   \
-}                                            \
-        while( 0 )
+        TEST_ASSERT_EQUAL( try, catch );     \
+    } while( 0 )
 
 #endif /* ifndef CATCH_ASSERT_H_ */
