@@ -80,11 +80,11 @@ jobs:
           with:
             ref: main
             repository: aws/aws-iot-device-sdk-embedded-C
-        - run: rm -rf libraries/standard/retry-utils
+        - run: rm -rf libraries/standard/backoffAlgorithm
         - name: Clone This Repo
           uses: actions/checkout@v2
           with:
-            path: libraries/standard/backoff-algorithm
+            path: libraries/standard/backoffAlgorithm
         - name: Install spell
           run: |
             sudo apt-get install spell
@@ -92,7 +92,7 @@ jobs:
         - name: Check spelling
           run: |
             PATH=$PATH:$PWD/tools/spell
-            for lexfile in `find libraries/standard/backoff-algorithm -name lexicon.txt`
+            for lexfile in `find libraries/standard/backoffAlgorithm -name lexicon.txt`
             do dir=${lexfile%/lexicon.txt}
               echo $dir
               find-unknown-comment-words --directory $dir
