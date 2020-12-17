@@ -20,13 +20,14 @@ See memory requirements for this library [here](https://docs.aws.amazon.com/embe
 
 ## Reference example
 
-The example below shows how to use the backoffAlgorithm library to retry a DNS resolution query for `amazon.com`.
+The example below shows how to use the backoffAlgorithm library on a POSIX platform to retry a DNS resolution query for `amazon.com`.
 
 ```c
 #include "backoff_algorithm.h"
 #include <stdlib.h>
 #include <string.h>
 #include <netdb.h>
+#include <unistd.h>
 #include <time.h>
 
 /* The maximum number of retries for the example code. */
@@ -44,11 +45,11 @@ int main()
     BackoffAlgorithmStatus_t retryStatus = BackoffAlgorithmSuccess;
     BackoffAlgorithmContext_t retryParams;
     char serverAddress[] = "amazon.com";
-    uint16_t nextRetryBackOff = 0;
+    uint16_t nextRetryBackoff = 0;
 
     int32_t dnsStatus = -1;
     struct addrinfo hints;
-    struct addrinfo ** pListHead;
+    struct addrinfo ** pListHead = NULL;
     struct timespec tp;
 
     /* Add hints to retrieve only TCP sockets in getaddrinfo. */
@@ -86,12 +87,19 @@ int main()
         {
             /* Generate a random number and get back-off value (in milliseconds) for the next retry.
              * Note: It is recommended to use a random number generator that is seeded with
-             * device-specific entropy source so that backoff calculation in devices is different 
+             * device-specific entropy source so that backoff calculation across devices is different
              * and possibility of network collision between devices attempting retries can be avoided.
              *
-             * For the simplicity of the code example, the pseudo random number generator, rand() function
-             * is used. */
-            retryStatus = BackoffAlgorithm_GetNextBackoff( &retryParams, rand(), &nextRetryBackOff );
+             * For the simplicity of this code example, the pseudo random number generator, rand()
+             * function is used. */
+            retryStatus = BackoffAlgorithm_GetNextBackoff( &retryParams, rand(), &nextRetryBackoff );
+
+            /* Wait for the calculated backoff period before the next retry attempt of querying DNS.
+             * As usleep() takes nanoseconds as the parameter, we multiply the backoff period by 1000. */
+            ( void ) usleep( nextRetryBackoff * 1000U );
+
+            /* Retry the DNS lookup for the host name. */
+            dnsStatus = getaddrinfo( serverAddress, NULL, &hints, pListHead );
         }
     } while( ( dnsStatus != 0 ) && ( retryStatus != BackoffAlgorithmRetriesExhausted ) );
 
