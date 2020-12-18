@@ -97,9 +97,6 @@ int main()
             /* Wait for the calculated backoff period before the next retry attempt of querying DNS.
              * As usleep() takes nanoseconds as the parameter, we multiply the backoff period by 1000. */
             ( void ) usleep( nextRetryBackoff * 1000U );
-
-            /* Retry the DNS lookup for the host name. */
-            dnsStatus = getaddrinfo( serverAddress, NULL, &hints, pListHead );
         }
     } while( ( dnsStatus != 0 ) && ( retryStatus != BackoffAlgorithmRetriesExhausted ) );
 
