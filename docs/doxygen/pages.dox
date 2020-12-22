@@ -36,19 +36,22 @@ For a reference example of using the library, refer to the related README sectio
 
 <table>
     <tr>
-        <td colspan="4"><center><b>Code size (in bytes) of backoffAlgorithm library files (sizes generated with [GCC for ARM Cortex-M toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads/9-2020-q2-update))</b></center></td>
+        <td colspan="3"><center><b>Code size of backoffAlgorithm library (example generated with GCC for ARM Cortex-M)</b></center></td>
     </tr>
     <tr>
         <td><b>File</b></td>
-        <td><b>No Optimization (asserts enabled)</b></td>
-        <td><b>With -O1 Optimization (asserts disabled)</b></td>
-        <td><b>With -Os Optimization (asserts disabled)</b></td>
+        <td><center><b>With -O1 Optimization</b></center></td>
+        <td><center><b>With -Os Optimization</b></center></td>
     </tr>
     <tr>
         <td>backoff_algorithm.c</td>
-        <td>678</td>
-        <td>140</td>
-        <td>136</td>
+        <td><center>0.1K</center></td>
+        <td><center>0.1K</center></td>
+    </tr>
+    <tr>
+        <td><b>Total estimate</b></td>
+        <td><center><b>0.1K</b></center></td>
+        <td><center><b>0.1K</b></center></td>
     </tr>
 </table>
 
