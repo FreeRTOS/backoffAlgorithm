@@ -34,26 +34,7 @@ For a reference example of using the library, refer to the related README sectio
 @section backoff_algorithm_memory_requirements Memory Requirements
 @brief Memory requirements of the backoffAlgorithm library.
 
-<table>
-    <tr>
-        <td colspan="3"><center><b>Code size of backoffAlgorithm (example generated with GCC for ARM Cortex-M)</b></center></td>
-    </tr>
-    <tr>
-        <td><b>File</b></td>
-        <td><center><b>With -O1 Optimization</b></center></td>
-        <td><center><b>With -Os Optimization</b></center></td>
-    </tr>
-    <tr>
-        <td>backoff_algorithm.c</td>
-        <td><center>0.1K</center></td>
-        <td><center>0.1K</center></td>
-    </tr>
-    <tr>
-        <td><b>Total estimate</b></td>
-        <td><center><b>0.1K</b></center></td>
-        <td><center><b>0.1K</b></center></td>
-    </tr>
-</table>
+@include{doc} size_table.html
 
 @section backoff_algorithm_design Design
 @brief backoffAlgorithm Library Design
