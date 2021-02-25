@@ -1,6 +1,6 @@
 # Changelog for backoffAlgorithm Library
 
-## v1.0.1 (March 2020)
+## v1.0.1 (February 2020)
 
 ### Changes
 
