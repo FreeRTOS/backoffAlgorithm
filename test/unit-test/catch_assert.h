@@ -1,5 +1,5 @@
 /*
- * backoffAlgorithm V1.0.1
+ * backoffAlgorithm v1.0.1
  * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -62,18 +62,17 @@ static void catchHandler_( int signal )
         close( 2 );                          \
         if( setjmp( CATCH_JMPBUF ) == 0 )    \
         {                                    \
-            try ++;                          \
+            try++;                           \
             x;                               \
         }                                    \
         else                                 \
         {                                    \
-            catch ++;                        \
+            catch++;                         \
         }                                    \
         sigaction( SIGABRT, &saveSa, NULL ); \
         dup2( saveFd, 2 );                   \
         close( saveFd );                     \
-        TEST_ASSERT_EQUAL ( try , catch );   \
-}                                            \
-        while( 0 )
+        TEST_ASSERT_EQUAL( try, catch );     \
+    } while( 0 )
 
 #endif /* ifndef CATCH_ASSERT_H_ */

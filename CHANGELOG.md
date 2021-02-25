@@ -4,7 +4,7 @@
 
 ### Changes
 
-- [#18](https://github.com/FreeRTOS/backoffAlgorithm/pull/19) and [#20](https://github.com/FreeRTOS/backoffAlgorithm/pull/20) Documentation fixes.
+- [#18](https://github.com/FreeRTOS/backoffAlgorithm/pull/18), [#19](https://github.com/FreeRTOS/backoffAlgorithm/pull/19), and [#20](https://github.com/FreeRTOS/backoffAlgorithm/pull/20) Documentation fixes.
 
 ## v1.0.0 (December 2020)
 
