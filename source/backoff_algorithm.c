@@ -52,7 +52,7 @@ BackoffAlgorithmStatus_t BackoffAlgorithm_GetNextBackoff( BackoffAlgorithmContex
          * for the retry attempt. */
 
         /* Choose a random value for back-off time between 0 and the max jitter value. */
-        *pNextBackOff = ( uint16_t ) ( randomValue % ( pRetryContext->nextJitterMax + 1UL ) );
+        *pNextBackOff = ( uint16_t ) ( randomValue % ( pRetryContext->nextJitterMax + ( uint32_t ) 1U ) );
 
         /* Increment the retry attempt. */
         pRetryContext->attemptsDone++;
