@@ -4,6 +4,7 @@
 
 ### Changes
 
+- [#24](https://github.com/FreeRTOS/backoffAlgorithm/pull/24) Fix MISRA 10.4 and 10.7 rule violations, and add documentation of MISRA compliance.
 - [#18](https://github.com/FreeRTOS/backoffAlgorithm/pull/18), [#19](https://github.com/FreeRTOS/backoffAlgorithm/pull/19), and [#20](https://github.com/FreeRTOS/backoffAlgorithm/pull/20) Documentation fixes.
 
 ## v1.0.0 (December 2020)
