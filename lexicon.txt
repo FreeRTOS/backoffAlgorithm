@@ -31,7 +31,7 @@ longjmp
 mainpage
 maxattempts
 maxbackoff
-maxretryattmpts
+maxretryattempts
 min
 misra
 mockrng

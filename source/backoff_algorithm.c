@@ -44,7 +44,7 @@ BackoffAlgorithmStatus_t BackoffAlgorithm_GetNextBackoff( BackoffAlgorithmContex
     assert( pRetryContext != NULL );
     assert( pNextBackOff != NULL );
 
-    /* If maxRetryAttmpts state of the context is set to 0, retry forever. */
+    /* If maxRetryAttempts state of the context is set to 0, retry forever. */
     if( ( pRetryContext->attemptsDone < pRetryContext->maxRetryAttempts ) ||
         ( pRetryContext->maxRetryAttempts == BACKOFF_ALGORITHM_RETRY_FOREVER ) )
     {
