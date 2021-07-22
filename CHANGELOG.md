@@ -7,7 +7,7 @@
 - [#29](https://github.com/FreeRTOS/backoffAlgorithm/pull/29) Set BACKOFF_ALGORITHM_RETRY_FOREVER to be nonzero and add header guards for C++ linkage.
 - [#27](https://github.com/FreeRTOS/backoffAlgorithm/pull/27) Fix incorrect comment about use of BACKOFF_ALGORITHM_RETRY_FOREVER constant in BackoffAlgorithm_GetNextBackoff API.
 
-## v1.1.0 (February 2021)
+## v1.0.1 (February 2021)
 
 ### Changes
 
