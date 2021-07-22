@@ -46,7 +46,7 @@
  * @ingroup backoff_algorithm_constants
  * @brief Constant to represent unlimited number of retry attempts.
  */
-#define BACKOFF_ALGORITHM_RETRY_FOREVER    ( 0U )
+#define BACKOFF_ALGORITHM_RETRY_FOREVER    ( UINT32_MAX )
 
 /**
  * @ingroup backoff_algorithm_enum_types
