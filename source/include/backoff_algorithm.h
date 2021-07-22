@@ -36,6 +36,12 @@
 /* Standard include. */
 #include <stdint.h>
 
+/* *INDENT-OFF* */
+#ifdef __cplusplus
+    extern "C" {
+#endif
+/* *INDENT-ON* */
+
 /**
  * @ingroup backoff_algorithm_constants
  * @brief Constant to represent unlimited number of retry attempts.
@@ -129,5 +135,11 @@ BackoffAlgorithmStatus_t BackoffAlgorithm_GetNextBackoff( BackoffAlgorithmContex
                                                           uint32_t randomValue,
                                                           uint16_t * pNextBackOff );
 /* @[define_backoffalgorithm_getnextbackoff] */
+
+/* *INDENT-OFF* */
+#ifdef __cplusplus
+    }
+#endif
+/* *INDENT-ON* */
 
 #endif /* ifndef BACKOFF_ALGORITHM_H_ */
