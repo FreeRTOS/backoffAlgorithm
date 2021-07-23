@@ -22,8 +22,8 @@ set( UNIT_TEST_DIR ${MODULE_ROOT_DIR}/test/unit-test CACHE INTERNAL "backoffAlgo
 set( UNITY_DIR ${UNIT_TEST_DIR}/Unity CACHE INTERNAL "Unity library source directory." )
 
 # Configure options to always show in CMake GUI.
-option( BUILD_CLONE_SUBMODULES
-        "Set this to ON to automatically clone any required Git submodules. When OFF, submodules must be manually cloned."
+option( BUILD_UNIT_TESTS
+        "Set this to ON to build unit tests. This will clone the required Unity test framework submodule if it is not cloned already."
         OFF )
 
 # Set output directories.
@@ -47,41 +47,53 @@ target_include_directories( coverity_analysis
 
 #  ==================================== Unit Test Configuration ====================================
 
-# Include Unity build configuration.
-include( unit-test/unity_build.cmake )
+if(${BUILD_CODE_EXAMPLE})
 
-# Check if the Unity source directory exists, and if not present, clone the submodule
-# if BUILD_CLONE_SUBMODULES configuration is enabled.
-if( NOT EXISTS ${UNITY_DIR}/src )
-    # Attempt to clone Unity.
-    if( ${BUILD_CLONE_SUBMODULES} )
-        clone_unity()
-    else()
-        message( FATAL_ERROR "The required submodule Unity does not exist. Either clone it manually, or set BUILD_CLONE_SUBMODULES to 1 to automatically clone it during build." )
-    endif()
+    # Target for code example binary.
+    add_executable( code_example_posix
+                    ${MODULE_ROOT_DIR}/docs/doxygen/code_examples/backoff_algorithm_posix.c )
+
+    target_link_libraries( code_example_posix coverity_analysis )
+
 endif()
 
-# Add unit test and coverage configuration.
+#  ==================================== Unit Test Configuration ====================================
 
-# Use CTest utility for managing test runs. This has to be added BEFORE
-# defining test targets with add_test()
-enable_testing()
+if(${BUILD_UNIT_TESTS})
 
-# Add build targets for Unity and Unit, required for unit testing.
-add_unity_targets()
+    # Include Unity build configuration.
+    include( unit-test/unity_build.cmake )
 
-# Add function to enable Unity based tests and coverage.
-include( ${MODULE_ROOT_DIR}/tools/unity/create_test.cmake )
+    # Check if the Unity source directory exists, and if not present, clone the submodule
+    # if BUILD_CLONE_SUBMODULES configuration is enabled.
+    if( NOT EXISTS ${UNITY_DIR}/src )
+        # Attempt to clone Unity.
+        clone_unity()
+    endif()
 
-# Include build configuration for unit tests.
-add_subdirectory( unit-test )
+    # Add unit test and coverage configuration.
 
-#  ==================================== Coverage Analysis configuration ============================
+    # Use CTest utility for managing test runs. This has to be added BEFORE
+    # defining test targets with add_test()
+    enable_testing()
 
-# Add a target for running coverage on tests.
-add_custom_target( coverage
-    COMMAND ${CMAKE_COMMAND} -DUNITY_DIR=${UNITY_DIR}
-    -P ${MODULE_ROOT_DIR}/tools/unity/coverage.cmake
-    DEPENDS unity backoff_algorithm_utest
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-)
+    # Add build targets for Unity and Unit, required for unit testing.
+    add_unity_targets()
+
+    # Add function to enable Unity based tests and coverage.
+    include( ${MODULE_ROOT_DIR}/tools/unity/create_test.cmake )
+
+    # Include build configuration for unit tests.
+    add_subdirectory( unit-test )
+
+    #  ==================================== Coverage Analysis configuration ============================
+
+    # Add a target for running coverage on tests.
+    add_custom_target( coverage
+        COMMAND ${CMAKE_COMMAND} -DUNITY_DIR=${UNITY_DIR}
+        -P ${MODULE_ROOT_DIR}/tools/unity/coverage.cmake
+        DEPENDS unity backoff_algorithm_utest
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+
+endif()
