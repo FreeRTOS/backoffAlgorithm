@@ -34,7 +34,7 @@ For a reference example of using the library, refer to the related README sectio
 @section backoff_algorithm_memory_requirements Memory Requirements
 @brief Memory requirements of the backoffAlgorithm library.
 
-@include{doc} size_table.html
+@include{doc} size_table.md
 
 @section backoff_algorithm_design Design
 @brief backoffAlgorithm Library Design
