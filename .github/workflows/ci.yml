@@ -42,8 +42,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Build code example
         run: |
-          cmake -S test -b Build -DBUILD_CODE_EXAMPLE=ON
-          make -C build code_example_posix -j8
+          cmake -S test -B Build -DBUILD_CODE_EXAMPLE=ON
+          make -C Build code_example_posix -j8
   complexity:
     runs-on: ubuntu-latest
     steps:

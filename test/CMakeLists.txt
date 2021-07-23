@@ -54,9 +54,9 @@ if(${BUILD_CODE_EXAMPLE})
                     ${MODULE_ROOT_DIR}/docs/doxygen/code_examples/backoff_algorithm_posix.c )
 
     target_link_libraries( code_example_posix coverity_analysis )
-    
+
 endif()
-             
+
 #  ==================================== Unit Test Configuration ====================================
 
 if(${BUILD_UNIT_TESTS})

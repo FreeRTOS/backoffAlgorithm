@@ -65,7 +65,7 @@ every path of execution and achieve 100% branch coverage.
 @page backoff_algorithm_example Code Example for backoffAlgorithm API
 @brief Example POSIX application that retries DNS resolution operation with exponential backoff-and-jitter using the backoffAlgorithm library.
 
-@include backoff_algorithm_posix.c 
+@include backoff_algorithm_posix.c
  */
 
 /**
