@@ -62,18 +62,33 @@ every path of execution and achieve 100% branch coverage.
 */
 
 /**
+@page backoff_algorithm_example Code Example of backoffAlgorithm API
+@brief Example POSIX application of retrying DNS resolution operation with exponential backoff-and-jitter with the backoffAlgorithm library.
+
+@include backoff_algorithm_posix.c 
+ */
+
+/**
 @page backoff_algorithm_functions Functions
 @brief Primary functions of the backoffAlgorithm library:<br><br>
 @subpage define_backoffalgorithm_initializeparams <br>
 @subpage define_backoffalgorithm_getnextbackoff <br>
 
+<b>For a code example </b> of using backoffAlgorithm library for retrying operation with exponential back-off and jitter, refer to @ref backoff_algorithm_example.
+
 @page define_backoffalgorithm_initializeparams BackoffAlgorithm_InitializeParams
 @snippet backoff_algorithm.h define_backoffalgorithm_initializeparams
 @copydoc BackoffAlgorithm_InitializeParams
 
+From the @ref backoff_algorithm_example, following is the part relevant to the @ref BackoffAlgorithm_InitializeParams API.
+@snippet backoff_algorithm_posix.c code_example_backoffalgorithm_initializeparams
+
 @page define_backoffalgorithm_getnextbackoff BackoffAlgorithm_GetNextBackoff
-@snippet backoff_algorithm.h define_backoffalgorithm_getnextbackoff
 @copydoc BackoffAlgorithm_GetNextBackoff
+
+From the @ref backoff_algorithm_example, following is the part relevant to the @ref BackoffAlgorithm_GetNextBackoff API.
+@snippet backoff_algorithm_posix.c code_example_backoffalgorithm_getnextbackoff
+
 */
 
 <!-- We do not use doxygen ALIASes here because there have been issues in the past versions with "^^" newlines within the alias definition. -->

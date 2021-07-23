@@ -17,7 +17,7 @@ jobs:
           cmake -S test -B build/ \
           -G "Unix Makefiles" \
           -DCMAKE_BUILD_TYPE=Debug \
-          -DBUILD_CLONE_SUBMODULES=ON \
+          -DBUILD_UNIT_TESTS=ON \
           -DCMAKE_C_FLAGS='--coverage -Wall -Wextra -Werror'
           make -C build/ all
       - name: Test
@@ -35,6 +35,15 @@ jobs:
         uses: FreeRTOS/CI-CD-Github-Actions/coverage-cop@main
         with:
           path: ./build/coverage.info
+  build-code-example:
+  runs-on: ubuntu-latest
+    steps:
+      - name: Clone This Repo
+        uses: actions/checkout@v2
+      - name: Build code example
+        run: |
+          cmake -S test -b Build -DBUILD_CODE_EXAMPLE=ON
+          make -C build code_example_posix -j8
   complexity:
     runs-on: ubuntu-latest
     steps:
