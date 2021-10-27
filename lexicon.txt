@@ -11,6 +11,7 @@ backoffbase
 br
 colspan
 com
+config
 copydoc
 defgroup
 dns
