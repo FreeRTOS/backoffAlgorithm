@@ -41,7 +41,7 @@ add_library( coverity_analysis
              ${BACKOFF_ALGORITHM_SOURCES} )
 
 # Backoff Algorithm library public include path.
-target_include_directories( coverity_analysis 
+target_include_directories( coverity_analysis
                             PUBLIC
                             ${BACKOFF_ALGORITHM_INCLUDE_PUBLIC_DIRS} 
                             "${CMAKE_CURRENT_LIST_DIR}/include" )
