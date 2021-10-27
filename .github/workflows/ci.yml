@@ -35,6 +35,18 @@ jobs:
         uses: FreeRTOS/CI-CD-Github-Actions/coverage-cop@main
         with:
           path: ./build/coverage.info
+  build-with-default-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone This Repo
+        uses: actions/checkout@v2
+      - name: Build
+        run: |
+          cmake -S test -B build/ \
+          -G "Unix Makefiles" \
+          -DCMAKE_BUILD_TYPE=Debug \
+          -DCMAKE_C_FLAGS='-Wall -Wextra -Werror -DBACKOFF_ALGORITHM_DO_NOT_USE_CUSTOM_CONFIG'
+          make -C build/ all
   build-code-example:
     runs-on: ubuntu-latest
     steps:
