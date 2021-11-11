@@ -1,5 +1,9 @@
 # Changelog for backoffAlgorithm Library
 
+## v1.2.0 (November 2021)
+- [#31](https://github.com/FreeRTOS/backoffAlgorithm/pull/31) Update doxygen version for documentation.
+- [#30](https://github.com/FreeRTOS/backoffAlgorithm/pull/30) Add code examples to documentation.
+
 ## v1.1.0 (July 2021)
 
 ### Changes
