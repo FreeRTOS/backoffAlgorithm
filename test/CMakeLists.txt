@@ -45,6 +45,9 @@ target_include_directories( coverity_analysis
                             PUBLIC
                              ${BACKOFF_ALGORITHM_INCLUDE_PUBLIC_DIRS} )
 
+# Disable logging/assert() calls when building the Coverity analysis target
+target_compile_options(coverity_analysis PUBLIC -DDISABLE_LOGGING )
+
 #  ==================================== Unit Test Configuration ====================================
 
 if(${BUILD_CODE_EXAMPLE})

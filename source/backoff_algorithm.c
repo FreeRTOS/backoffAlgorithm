@@ -27,7 +27,6 @@
  */
 
 /* Standard includes. */
-#include <assert.h>
 #include <stddef.h>
 
 /* Include API header. */
