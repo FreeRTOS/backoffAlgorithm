@@ -36,12 +36,6 @@
 /* Standard include. */
 #include <stdint.h>
 
-#ifdef DISABLE_LOGGING
-    #define assert( x )
-#else
-    #include <assert.h>
-#endif
-
 /* *INDENT-OFF* */
 #ifdef __cplusplus
     extern "C" {

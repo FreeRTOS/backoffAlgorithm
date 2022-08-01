@@ -29,6 +29,12 @@
 /* Standard includes. */
 #include <stddef.h>
 
+#ifdef DISABLE_ASSERT
+    #define assert( x )
+#else
+    #include <assert.h>
+#endif
+
 /* Include API header. */
 #include "backoff_algorithm.h"
 
