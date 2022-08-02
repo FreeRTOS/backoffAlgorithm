@@ -29,11 +29,14 @@
 /* Standard includes. */
 #include <stddef.h>
 
-#ifdef DISABLE_ASSERT
-    #define assert( x )
-#else
-    #include <assert.h>
-#endif
+#ifndef configBACKOFF_ASSERT
+    #ifdef DISABLE_ASSERT
+        #define configBACKOFF_ASSERT( x )
+    #else /* !DISABLE_ASSERT */
+        #include <assert.h>
+        #define configBACKOFF_ASSERT assert
+    #endif /* ifdef DISABLE_ASSERT */
+#endif /* ifndef configBACKOFF_ASSERT */
 
 /* Include API header. */
 #include "backoff_algorithm.h"
@@ -46,8 +49,8 @@ BackoffAlgorithmStatus_t BackoffAlgorithm_GetNextBackoff( BackoffAlgorithmContex
 {
     BackoffAlgorithmStatus_t status = BackoffAlgorithmSuccess;
 
-    assert( pRetryContext != NULL );
-    assert( pNextBackOff != NULL );
+    configBACKOFF_ASSERT( pRetryContext != NULL );
+    configBACKOFF_ASSERT( pNextBackOff != NULL );
 
     /* If maxRetryAttempts state of the context is set to the maximum, retry forever. */
     if( ( pRetryContext->maxRetryAttempts == BACKOFF_ALGORITHM_RETRY_FOREVER ) ||
@@ -91,7 +94,7 @@ void BackoffAlgorithm_InitializeParams( BackoffAlgorithmContext_t * pContext,
                                         uint16_t maxBackOff,
                                         uint32_t maxAttempts )
 {
-    assert( pContext != NULL );
+    configBACKOFF_ASSERT( pContext != NULL );
 
     /* Initialize the context with parameters used in calculating the backoff
      * value for the next retry attempt. */
