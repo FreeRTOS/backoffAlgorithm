@@ -27,25 +27,8 @@
  */
 
 /* Standard includes. */
+#include <assert.h>
 #include <stddef.h>
-
-/**
- * @brief Macro that is called in the Backoff Algorithm library for assertions
- *
- * To enable actual assert messages all you need to do is NOT define DISABLE_LOGGING
- * This will cause the assert.h file to be included, and lead to normal behavior
- *
- * <b>Default value</b>: When building the coverity_analysis target assert() is turned off,
- *  and no code is generated for calls to the macro in the Backoff Algorithm library on compilation.
- */
-#ifndef configBACKOFF_ASSERT
-    #ifdef DISABLE_ASSERT
-        #define configBACKOFF_ASSERT( x )
-    #else /* !DISABLE_ASSERT */
-        #include <assert.h>
-        #define configBACKOFF_ASSERT    assert
-    #endif /* ifdef DISABLE_ASSERT */
-#endif /* ifndef configBACKOFF_ASSERT */
 
 /* Include API header. */
 #include "backoff_algorithm.h"
@@ -58,8 +41,8 @@ BackoffAlgorithmStatus_t BackoffAlgorithm_GetNextBackoff( BackoffAlgorithmContex
 {
     BackoffAlgorithmStatus_t status = BackoffAlgorithmSuccess;
 
-    configBACKOFF_ASSERT( pRetryContext != NULL );
-    configBACKOFF_ASSERT( pNextBackOff != NULL );
+    assert( pRetryContext != NULL );
+    assert( pNextBackOff != NULL );
 
     /* If maxRetryAttempts state of the context is set to the maximum, retry forever. */
     if( ( pRetryContext->maxRetryAttempts == BACKOFF_ALGORITHM_RETRY_FOREVER ) ||
@@ -103,7 +86,7 @@ void BackoffAlgorithm_InitializeParams( BackoffAlgorithmContext_t * pContext,
                                         uint16_t maxBackOff,
                                         uint32_t maxAttempts )
 {
-    configBACKOFF_ASSERT( pContext != NULL );
+    assert( pContext != NULL );
 
     /* Initialize the context with parameters used in calculating the backoff
      * value for the next retry attempt. */
