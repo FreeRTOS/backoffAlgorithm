@@ -22,6 +22,7 @@ getaddrinfo
 github
 html
 https
+ifdef
 ifndef
 inc
 ingroup
@@ -60,4 +61,3 @@ toolchain
 tr
 trng
 usleep
-utils
