@@ -61,4 +61,3 @@ toolchain
 tr
 trng
 usleep
-utils
