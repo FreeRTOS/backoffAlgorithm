@@ -1,6 +1,15 @@
 # Changelog for backoffAlgorithm Library
 
+## v1.2.1 (August 2022)
+
+### Changes
+
+- [#38](https://github.com/FreeRTOS/backoffAlgorithm/pull/38) MISRA compliance update
+
 ## v1.2.0 (November 2021)
+
+### Changes
+
 - [#31](https://github.com/FreeRTOS/backoffAlgorithm/pull/31) Update doxygen version for documentation.
 - [#30](https://github.com/FreeRTOS/backoffAlgorithm/pull/30) Add code examples to documentation.
 
