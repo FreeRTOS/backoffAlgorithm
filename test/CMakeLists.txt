@@ -22,9 +22,12 @@ set( UNIT_TEST_DIR ${MODULE_ROOT_DIR}/test/unit-test CACHE INTERNAL "backoffAlgo
 set( UNITY_DIR ${UNIT_TEST_DIR}/Unity CACHE INTERNAL "Unity library source directory." )
 
 # Configure options to always show in CMake GUI.
-option( BUILD_UNIT_TESTS
+option( UNITTEST
         "Set this to ON to build unit tests. This will clone the required Unity test framework submodule if it is not cloned already."
         OFF )
+option( COV_ANALYSIS
+        "Set this to ON to build coverity analysis project."
+        ON )
 
 # Set output directories.
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
@@ -32,21 +35,22 @@ set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 
 # ================================ Coverity Analysis Configuration =================================
+if( COV_ANALYSIS )
+    # Include filepaths for source and include.
+    include( ${MODULE_ROOT_DIR}/backoffAlgorithmFilePaths.cmake )
 
-# Include filepaths for source and include.
-include( ${MODULE_ROOT_DIR}/backoffAlgorithmFilePaths.cmake )
+    # Target for Coverity analysis that builds the library.
+    add_library( coverity_analysis
+                ${BACKOFF_ALGORITHM_SOURCES} )
 
-# Target for Coverity analysis that builds the library.
-add_library( coverity_analysis
-             ${BACKOFF_ALGORITHM_SOURCES} )
+    # Backoff Algorithm library public include path.
+    target_include_directories( coverity_analysis
+                                PUBLIC
+                                ${BACKOFF_ALGORITHM_INCLUDE_PUBLIC_DIRS} )
 
-# Backoff Algorithm library public include path.
-target_include_directories( coverity_analysis
-                            PUBLIC
-                             ${BACKOFF_ALGORITHM_INCLUDE_PUBLIC_DIRS} )
-
-# Disable logging/assert() calls when building the Coverity analysis target
-target_compile_options(coverity_analysis PUBLIC -DNDEBUG )
+    # Disable logging/assert() calls when building the Coverity analysis target
+    target_compile_options(coverity_analysis PUBLIC -DNDEBUG )
+endif()
 
 #  ==================================== Unit Test Configuration ====================================
 
@@ -62,7 +66,7 @@ endif()
 
 #  ==================================== Unit Test Configuration ====================================
 
-if(${BUILD_UNIT_TESTS})
+if( UNITTEST )
 
     # Include Unity build configuration.
     include( unit-test/unity_build.cmake )
