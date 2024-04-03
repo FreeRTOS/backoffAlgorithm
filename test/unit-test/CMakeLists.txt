@@ -1,9 +1,7 @@
 # Include file path configuration for backoff algorithm library.
 include(${MODULE_ROOT_DIR}/backoffAlgorithmFilePaths.cmake)
 
-project ( "backoff algorithm unit test"
-          VERSION 1.3.0
-          LANGUAGE C )
+project ( "backoff algorithm unit test" )
 cmake_minimum_required (VERSION 3.2.0)
 
 # ====================  Define your project name (edit) ========================
