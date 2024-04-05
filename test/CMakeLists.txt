@@ -22,7 +22,7 @@ set( UNIT_TEST_DIR ${MODULE_ROOT_DIR}/test/unit-test CACHE INTERNAL "backoffAlgo
 set( UNITY_DIR ${UNIT_TEST_DIR}/Unity CACHE INTERNAL "Unity library source directory." )
 
 # Configure options to always show in CMake GUI.
-option( BUILD_UNIT_TESTS
+option( UNITTEST
         "Set this to ON to build unit tests. This will clone the required Unity test framework submodule if it is not cloned already."
         OFF )
 
@@ -62,7 +62,7 @@ endif()
 
 #  ==================================== Unit Test Configuration ====================================
 
-if(${BUILD_UNIT_TESTS})
+if(${UNITTEST})
 
     # Include Unity build configuration.
     include( unit-test/unity_build.cmake )
