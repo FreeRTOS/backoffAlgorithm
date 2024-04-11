@@ -112,6 +112,7 @@ jobs:
           cp source/include/stdint.readme override-include/stdint.h
           cmake -S test -B build/ \
           -G "Unix Makefiles" \
+          -DCOV_ANALYSIS=ON \
           -DCMAKE_C_FLAGS='-Wall -Wextra -Werror -I../override-include'
           make -C build/ coverity_analysis
 
