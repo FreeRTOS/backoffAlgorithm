@@ -27,7 +27,7 @@ option( UNITTEST
         OFF )
 option( COV_ANALYSIS
         "Set this to ON to build coverity analysis project."
-        ON )
+	OFF )
 
 # Set output directories.
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
