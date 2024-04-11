@@ -59,10 +59,13 @@ if(${BUILD_CODE_EXAMPLE})
 
     # Target for code example binary.
     add_executable( code_example_posix
-                    ${MODULE_ROOT_DIR}/docs/doxygen/code_examples/backoff_algorithm_posix.c )
+                    ${MODULE_ROOT_DIR}/docs/doxygen/code_examples/backoff_algorithm_posix.c
+                    ${BACKOFF_ALGORITHM_SOURCES} )
 
-    target_link_libraries( code_example_posix coverity_analysis )
-
+    # Backoff Algorithm library public include path.
+    target_include_directories( code_example_posix
+                                PUBLIC
+                                ${BACKOFF_ALGORITHM_INCLUDE_PUBLIC_DIRS} )
 endif()
 
 #  ==================================== Unit Test Configuration ====================================
