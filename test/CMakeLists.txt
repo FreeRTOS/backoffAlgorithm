@@ -79,7 +79,12 @@ if( UNITTEST )
     # if BUILD_CLONE_SUBMODULES configuration is enabled.
     if( NOT EXISTS ${UNITY_DIR}/src )
         # Attempt to clone Unity.
-        clone_unity()
+        if( ${BUILD_CLONE_SUBMODULES} )
+            clone_unity()
+        else()
+            message( FATAL_ERROR "The required submodule Unity does not exist. Either clone it manually, or set BUILD_CLONE_SUBMODULES to 1 to automatically clone it during build." )
+        endif()
+
     endif()
 
     # Add unit test and coverage configuration.

@@ -18,6 +18,7 @@ jobs:
           -G "Unix Makefiles" \
           -DCMAKE_BUILD_TYPE=Debug \
           -DUNITTEST=ON \
+          -DBUILD_CLONE_SUBMODULES=ON \
           -DCMAKE_C_FLAGS='--coverage -Wall -Wextra -Werror'
           make -C build/ all
       - name: Test
@@ -111,7 +112,6 @@ jobs:
           cp source/include/stdint.readme override-include/stdint.h
           cmake -S test -B build/ \
           -G "Unix Makefiles" \
-          -DBUILD_CLONE_SUBMODULES=ON \
           -DCMAKE_C_FLAGS='-Wall -Wextra -Werror -I../override-include'
           make -C build/ coverity_analysis
 
