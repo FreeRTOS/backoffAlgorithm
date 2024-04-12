@@ -12,6 +12,7 @@ Coverity
 CSDK
 ctest
 DCMOCK
+DCOV
 decihours
 Decihours
 DECIHOURS

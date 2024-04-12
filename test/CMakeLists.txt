@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.13.0 )
 project( "backoffAlgorithm unit test"
-         VERSION 1.0.0
+         VERSION 1.3.0
          LANGUAGES C )
 
 # Allow the project to be organized into folders.
@@ -25,28 +25,33 @@ set( UNITY_DIR ${UNIT_TEST_DIR}/Unity CACHE INTERNAL "Unity library source direc
 option( UNITTEST
         "Set this to ON to build unit tests. This will clone the required Unity test framework submodule if it is not cloned already."
         OFF )
+option( COV_ANALYSIS
+        "Set this to ON to build coverity analysis project."
+	OFF )
 
 # Set output directories.
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
 set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 
-# ================================ Coverity Analysis Configuration =================================
-
 # Include filepaths for source and include.
 include( ${MODULE_ROOT_DIR}/backoffAlgorithmFilePaths.cmake )
 
-# Target for Coverity analysis that builds the library.
-add_library( coverity_analysis
-             ${BACKOFF_ALGORITHM_SOURCES} )
+# ================================ Coverity Analysis Configuration =================================
+if( COV_ANALYSIS )
 
-# Backoff Algorithm library public include path.
-target_include_directories( coverity_analysis
-                            PUBLIC
-                             ${BACKOFF_ALGORITHM_INCLUDE_PUBLIC_DIRS} )
+    # Target for Coverity analysis that builds the library.
+    add_library( coverity_analysis
+                ${BACKOFF_ALGORITHM_SOURCES} )
 
-# Disable logging/assert() calls when building the Coverity analysis target
-target_compile_options(coverity_analysis PUBLIC -DNDEBUG )
+    # Backoff Algorithm library public include path.
+    target_include_directories( coverity_analysis
+                                PUBLIC
+                                ${BACKOFF_ALGORITHM_INCLUDE_PUBLIC_DIRS} )
+
+    # Disable logging/assert() calls when building the Coverity analysis target
+    target_compile_options(coverity_analysis PUBLIC -DNDEBUG )
+endif()
 
 #  ==================================== Unit Test Configuration ====================================
 
@@ -54,15 +59,18 @@ if(${BUILD_CODE_EXAMPLE})
 
     # Target for code example binary.
     add_executable( code_example_posix
-                    ${MODULE_ROOT_DIR}/docs/doxygen/code_examples/backoff_algorithm_posix.c )
+                    ${MODULE_ROOT_DIR}/docs/doxygen/code_examples/backoff_algorithm_posix.c
+                    ${BACKOFF_ALGORITHM_SOURCES} )
 
-    target_link_libraries( code_example_posix coverity_analysis )
-
+    # Backoff Algorithm library public include path.
+    target_include_directories( code_example_posix
+                                PUBLIC
+                                ${BACKOFF_ALGORITHM_INCLUDE_PUBLIC_DIRS} )
 endif()
 
 #  ==================================== Unit Test Configuration ====================================
 
-if(${UNITTEST})
+if( UNITTEST )
 
     # Include Unity build configuration.
     include( unit-test/unity_build.cmake )
@@ -71,7 +79,12 @@ if(${UNITTEST})
     # if BUILD_CLONE_SUBMODULES configuration is enabled.
     if( NOT EXISTS ${UNITY_DIR}/src )
         # Attempt to clone Unity.
-        clone_unity()
+        if( ${BUILD_CLONE_SUBMODULES} )
+            clone_unity()
+        else()
+            message( FATAL_ERROR "The required submodule Unity does not exist. Either clone it manually, or set BUILD_CLONE_SUBMODULES to 1 to automatically clone it during build." )
+        endif()
+
     endif()
 
     # Add unit test and coverage configuration.
