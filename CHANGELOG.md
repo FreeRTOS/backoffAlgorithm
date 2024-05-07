@@ -1,6 +1,6 @@
 # Changelog for backoffAlgorithm Library
 
-## v1.3.1 (May 2024)
+## v1.4.0 (May 2024)
 
 ### Changes
 - [#51](https://github.com/FreeRTOS/backoffAlgorithm/pull/51) Update MISRA Check Information.
