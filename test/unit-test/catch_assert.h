@@ -1,5 +1,5 @@
 /*
- * backoffAlgorithm v1.3.0
+ * backoffAlgorithm v1.4.0
  * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
  *
  * SPDX-License-Identifier: MIT
