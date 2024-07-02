@@ -25,16 +25,10 @@ attempting reconnections when they are unlikely to succeed.
 See memory requirements for this library
 [here](./docs/doxygen/include/size_table.md).
 
-**backoffAlgorithm v1.3.0
-[source code](https://github.com/FreeRTOS/backoffAlgorithm/tree/v1.3.0/source)
+**backoffAlgorithm v1.4.1
+[source code](https://github.com/FreeRTOS/backoffAlgorithm/tree/v1.4.1/source)
 is part of the
-[FreeRTOS 202210.00 LTS](https://github.com/FreeRTOS/FreeRTOS-LTS/tree/202210.00-LTS)
-release.**
-
-**backoffAlgorithm v1.0.0
-[source code](https://github.com/FreeRTOS/backoffAlgorithm/tree/v1.0.0/source)
-is part of the
-[FreeRTOS 202012.00 LTS](https://github.com/FreeRTOS/FreeRTOS-LTS/tree/202012.00-LTS)
+[FreeRTOS 202406.00 LTS](https://github.com/FreeRTOS/FreeRTOS-LTS/tree/202406.00-LTS)
 release.**
 
 ## Reference example
