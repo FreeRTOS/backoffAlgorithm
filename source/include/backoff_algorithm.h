@@ -80,7 +80,7 @@ typedef struct BackoffAlgorithmContext
     /**
      * @brief The maximum backoff delay (in milliseconds) between consecutive retry attempts.
      */
-    uint16_t maxBackoffDelay;
+    uint32_t maxBackoffDelay;
 
     /**
      * @brief The total number of retry attempts completed.
@@ -91,7 +91,7 @@ typedef struct BackoffAlgorithmContext
     /**
      * @brief The maximum backoff value (in milliseconds) for the next retry attempt.
      */
-    uint16_t nextJitterMax;
+    uint32_t nextJitterMax;
 
     /**
      * @brief The maximum number of retry attempts.
@@ -109,14 +109,14 @@ typedef struct BackoffAlgorithmContext
  * @param[in] maxBackOff The maximum backoff delay (in milliseconds) between
  * consecutive retry attempts.
  * @param[in] backOffBase The base value (in milliseconds) of backoff delay to
- * use in the exponential backoff and jitter model.
+ * use in the exponential backoff and jitter model. Must be non-zero.
  * @param[in] maxAttempts The maximum number of retry attempts. Set the value to
  * #BACKOFF_ALGORITHM_RETRY_FOREVER to retry for ever.
  */
 /* @[define_backoffalgorithm_initializeparams] */
 void BackoffAlgorithm_InitializeParams( BackoffAlgorithmContext_t * pContext,
-                                        uint16_t backOffBase,
-                                        uint16_t maxBackOff,
+                                        uint32_t backOffBase,
+                                        uint32_t maxBackOff,
                                         uint32_t maxAttempts );
 /* @[define_backoffalgorithm_initializeparams] */
 
@@ -135,7 +135,7 @@ void BackoffAlgorithm_InitializeParams( BackoffAlgorithmContext_t * pContext,
  * for the next retry attempt. The value does not exceed the maximum backoff delay
  * configured in the context.
  *
- * @note For generating a random number, it is recommended to use a Random Number Generator
+ * @note For generating a random number, it is recommended to use a random number generator
  * that is seeded with a device-specific entropy source so that possibility of collisions
  * between multiple devices retrying the network operations can be mitigated.
  *
@@ -145,7 +145,7 @@ void BackoffAlgorithm_InitializeParams( BackoffAlgorithmContext_t * pContext,
 /* @[define_backoffalgorithm_getnextbackoff] */
 BackoffAlgorithmStatus_t BackoffAlgorithm_GetNextBackoff( BackoffAlgorithmContext_t * pRetryContext,
                                                           uint32_t randomValue,
-                                                          uint16_t * pNextBackOff );
+                                                          uint32_t * pNextBackOff );
 /* @[define_backoffalgorithm_getnextbackoff] */
 
 /* *INDENT-OFF* */

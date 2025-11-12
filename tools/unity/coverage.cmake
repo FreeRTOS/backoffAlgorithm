@@ -55,11 +55,10 @@ execute_process(
                          --output-file ${CMAKE_BINARY_DIR}/second_coverage.info
         )
 
-# combile baseline results (zeros) with the one after running the tests
+# Skip baseline capture and use only test coverage
 execute_process(
             COMMAND lcov --base-directory ${CMAKE_BINARY_DIR}
                          --directory ${CMAKE_BINARY_DIR}
-                         --add-tracefile ${CMAKE_BINARY_DIR}/base_coverage.info
                          --add-tracefile ${CMAKE_BINARY_DIR}/second_coverage.info
                          --output-file ${CMAKE_BINARY_DIR}/coverage.info
                          --no-external

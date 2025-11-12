@@ -21,7 +21,7 @@ int main()
     BackoffAlgorithmStatus_t retryStatus = BackoffAlgorithmSuccess;
     BackoffAlgorithmContext_t retryParams;
     char serverAddress[] = "amazon.com";
-    uint16_t nextRetryBackoff = 0;
+    uint32_t nextRetryBackoff = 0;
 
     /* Initialize reconnect attempts and interval. */
     BackoffAlgorithm_InitializeParams( &retryParams,
