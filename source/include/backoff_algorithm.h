@@ -51,7 +51,7 @@
  * If BACKOFF_ALGORITHM_LIBRARY_VERSION ends with + it represents the version in development
  * after the numbered release.
  */
-#define BACKOFF_ALGORITHM_LIBRARY_VERSION    "v1.4.1+"
+#define BACKOFF_ALGORITHM_LIBRARY_VERSION    "v1.4.2"
 /** @endcond */
 
 /**
