@@ -3,6 +3,11 @@
 ## v1.4.2 (January 2026)
 
 ### Changes
+- [#68](https://github.com/FreeRTOS/backoffAlgorithm/pull/68) Add write permissions to doxygen generation workflow on main.
+- [#67](https://github.com/FreeRTOS/backoffAlgorithm/pull/67) Fix unit test coverage build.
+- [#66](https://github.com/FreeRTOS/backoffAlgorithm/pull/66) Update manifest.yml.
+- [#65](https://github.com/FreeRTOS/backoffAlgorithm/pull/65) Add CMakeLists.txt.
+- [#64](https://github.com/FreeRTOS/backoffAlgorithm/pull/64) Remove version numbers and add library version macro.
 - [#61](https://github.com/FreeRTOS/backoffAlgorithm/pull/61) Remove formatting bot workflow.
 - [#60](https://github.com/FreeRTOS/backoffAlgorithm/pull/60) Follow Security Guide to update YAML files.
 - [#59](https://github.com/FreeRTOS/backoffAlgorithm/pull/59) Update LTS 202406 information.
