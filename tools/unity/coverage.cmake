@@ -6,6 +6,7 @@ execute_process(
             COMMAND lcov --directory ${CMAKE_BINARY_DIR}
                          --base-directory ${CMAKE_BINARY_DIR}
                          --zerocounters
+                         --rc lcov_branch_coverage=1
 
             COMMAND mkdir -p  ${CMAKE_BINARY_DIR}/coverage
         )
@@ -14,6 +15,7 @@ execute_process( COMMAND lcov --directory ${CMAKE_BINARY_DIR}
                          --base-directory ${CMAKE_BINARY_DIR}
                          --initial
                          --capture
+                         --ignore-errors source
                          --rc lcov_branch_coverage=1
                          --rc genhtml_branch_coverage=1
                          --output-file=${CMAKE_BINARY_DIR}/base_coverage.info
@@ -45,6 +47,7 @@ execute_process(COMMAND ruby
 # capture data after running the tests
 execute_process(
             COMMAND lcov --capture
+                         --ignore-errors source
                          --rc lcov_branch_coverage=1
                          --rc genhtml_branch_coverage=1
                          --base-directory ${CMAKE_BINARY_DIR}
@@ -61,6 +64,7 @@ execute_process(
                          --output-file ${CMAKE_BINARY_DIR}/coverage.info
                          --no-external
                          --rc lcov_branch_coverage=1
+                         --ignore-errors unused
         )
 execute_process(
             COMMAND genhtml --rc lcov_branch_coverage=1
