@@ -1,5 +1,12 @@
 # Changelog for backoffAlgorithm Library
 
+## v1.4.2 (January 2026)
+
+### Changes
+- [#61](https://github.com/FreeRTOS/backoffAlgorithm/pull/61) Remove formatting bot workflow.
+- [#60](https://github.com/FreeRTOS/backoffAlgorithm/pull/60) Follow Security Guide to update YAML files.
+- [#59](https://github.com/FreeRTOS/backoffAlgorithm/pull/59) Update LTS 202406 information.
+
 ## v1.4.1 (June 2024)
 
 ### Changes
