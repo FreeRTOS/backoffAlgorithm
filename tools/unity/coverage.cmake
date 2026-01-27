@@ -47,6 +47,7 @@ execute_process(
             COMMAND lcov --capture
                          --rc lcov_branch_coverage=1
                          --rc genhtml_branch_coverage=1
+                         --ignore-errors unused
                          --base-directory ${CMAKE_BINARY_DIR}
                          --directory ${CMAKE_BINARY_DIR}
                          --output-file ${CMAKE_BINARY_DIR}/second_coverage.info
@@ -61,6 +62,7 @@ execute_process(
                          --output-file ${CMAKE_BINARY_DIR}/coverage.info
                          --no-external
                          --rc lcov_branch_coverage=1
+                         --ignore-errors unused
         )
 execute_process(
             COMMAND genhtml --rc lcov_branch_coverage=1
