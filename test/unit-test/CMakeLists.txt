@@ -2,7 +2,7 @@
 include(${MODULE_ROOT_DIR}/backoffAlgorithmFilePaths.cmake)
 
 project ("backoff algorithm unit test")
-cmake_minimum_required (VERSION 3.2.0)
+cmake_minimum_required (VERSION 3.5)
 
 # ====================  Define your project name (edit) ========================
 set(project_name "backoff_algorithm")
